@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>碰杯 Taste Adventure</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --milk:#F5E6D3;--milk2:#EDD5B5;--milk3:#D4B896;
+  --matcha:#8BAF7C;--matcha2:#6A9460;--matcha3:#4A7440;
+  --peach:#F4A8A8;--peach2:#E88080;
+  --pearl:#C8A882;--cream:#FDF6EE;
+  --brown:#7A5C3A;--brown2:#5A3E28;
+  --text-dark:#5A3E28;--text-mid:#8B6347;--text-light:#B8956A;
+  --soft-pink:#FADDDD;--soft-green:#D4EBCC;--soft-beige:#F9F0E3;
+  --gold:#C9933A;
+  --shadow:0 4px 20px rgba(122,92,58,0.12);
+  --shadow-sm:0 2px 8px rgba(122,92,58,0.10);
+}
+html,body{height:100%;overflow:hidden;background:#EDD5B5;}
+body{font-family:'Nunito','Noto Sans TC',sans-serif;display:flex;justify-content:center;align-items:center;}
+
+/* ── PHONE WRAPPER ── */
+#app{
+  width:390px;height:844px;background:var(--cream);
+  border-radius:44px;overflow:hidden;position:relative;
+  box-shadow:0 20px 60px rgba(90,62,40,0.35),inset 0 0 0 2px rgba(213,192,160,0.6);
+  display:flex;flex-direction:column;
+}
+@media(max-height:860px){
+  #app{width:360px;height:calc(100vh - 16px);border-radius:36px;}
+}
+@media(max-width:400px){
+  #app{width:100vw;height:100vh;border-radius:0;}
+}
+
+/* ── STATUS BAR ── */
+.status-bar{
+  height:44px;background:rgba(253,246,238,0.95);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;flex-shrink:0;z-index:100;
+  border-bottom:0.5px solid rgba(200,168,130,0.2);
+}
+.status-time{font-size:13px;font-weight:800;color:var(--text-dark);}
+.status-icons{font-size:12px;color:var(--text-mid);display:flex;gap:4px;align-items:center;}
+
+/* ── SCREEN MANAGER ── */
+.screen{
+  flex:1;overflow:hidden;display:none;flex-direction:column;
+  animation:screenIn 0.3s ease;
+}
+.screen.active{display:flex;}
+@keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SCROLLABLE CONTENT ── */
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.scroll-area::-webkit-scrollbar{display:none;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  height:72px;background:rgba(253,246,238,0.97);
+  border-top:0.5px solid rgba(200,168,130,0.3);
+  display:flex;align-items:center;flex-shrink:0;
+  padding-bottom:8px;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:3px;cursor:pointer;padding:8px 0;
+  transition:transform 0.15s;
+}
+.nav-item:active{transform:scale(0.9);}
+.nav-icon{font-size:20px;line-height:1;}
+.nav-label{font-size:9px;font-weight:700;color:var(--text-light);letter-spacing:0.3px;}
+.nav-item.active .nav-label{color:var(--brown);}
+.nav-item.active .nav-icon{filter:drop-shadow(0 0 4px rgba(200,130,80,0.4));}
+
+/* ══════════════════════════════════
+   SCREEN 1: WELCOME / LOGIN
+══════════════════════════════════ */
+#screen-welcome{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 50%,#EDD5B5 100%);}
+.welcome-bg{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:32px 28px;gap:16px;
+}
+.welcome-logo{text-align:center;margin-bottom:8px;}
+.logo-bubble{
+  width:90px;height:90px;background:white;border-radius:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;margin:0 auto 10px;
+  box-shadow:var(--shadow);
+  animation:logo-float 3s ease-in-out infinite;
+}
+@keyframes logo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.logo-title{font-size:30px;font-weight:900;color:var(--brown2);letter-spacing:-0.5px;}
+.logo-sub{font-size:12px;color:var(--text-light);margin-top:4px;letter-spacing:0.5px;}
+
+.welcome-card{
+  background:white;border-radius:24px;padding:20px;width:100%;
+  box-shadow:var(--shadow);border:1px solid rgba(200,168,130,0.2);
+}
+.card-title{font-size:15px;font-weight:800;color:var(--text-dark);margin-bottom:14px;}
+.input-group{display:flex;flex-direction:column;gap:10px;}
+.inp{
+  background:var(--soft-beige);border:1.5px solid #DCC9A8;
+  border-radius:14px;padding:12px 14px;font-size:14px;
+  color:var(--text-dark);font-family:'Nunito',sans-serif;
+  outline:none;transition:border-color 0.2s;width:100%;
+}
+.inp:focus{border-color:var(--pearl);}
+.inp::placeholder{color:#C8A882;}
+
+.btn-primary{
+  background:linear-gradient(135deg,#D4856A,#C07060);
+  color:white;border:none;border-radius:16px;padding:13px;
+  font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;
+  cursor:pointer;width:100%;letter-spacing:0.3px;
+  transition:transform 0.15s,box-shadow 0.15s;
+  box-shadow:0 4px 12px rgba(192,112,96,0.35);
+}
+.btn-primary:active{transform:scale(0.97);}
+.btn-secondary{
+  background:white;color:var(--text-mid);
+  border:1.5px solid #DCC9A8;border-radius:16px;
+  padding:12px;font-size:13px;font-weight:700;
+  font-family:'Nunito',sans-serif;cursor:pointer;width:100%;
+  transition:background 0.15s;
+}
+.btn-secondary:active{background:var(--soft-beige);}
+.divider{display:flex;align-items:center;gap:10px;color:var(--text-light);font-size:11px;}
+.divider::before,.divider::after{content:'';flex:1;height:0.5px;background:#DCC9A8;}
+
+/* ══════════════════════════════════
+   SCREEN 2: REGISTER
+══════════════════════════════════ */
+#screen-register{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 70%,#FADDDD 100%);}
+.reg-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
+.reg-scroll::-webkit-scrollbar{display:none;}
+.section-title{font-size:12px;font-weight:800;color:var(--text-mid);letter-spacing:0.8px;text-transform:uppercase;}
+
+.avatar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.avatar-cell{
+  background:white;border-radius:14px;border:2px solid transparent;
+  padding:8px 4px;text-align:center;cursor:pointer;
+  transition:all 0.2s;
+}
+.avatar-cell:active{transform:scale(0.93);}
+.avatar-cell.selected{border-color:var(--peach2);background:var(--soft-pink);}
+.av-emoji{font-size:24px;line-height:1;display:block;}
+.av-name{font-size:9px;color:var(--text-light);margin-top:3px;font-weight:700;}
+
+/* ══════════════════════════════════
+   SCREEN 3: HOME / RADAR
+══════════════════════════════════ */
+#screen-home{background:radial-gradient(ellipse at 50% 35%,#FDF0E0 0%,#F5E6D3 55%,#EDD5B5 100%);}
+.home-header{
+  background:rgba(253,246,238,0.95);padding:14px 20px 10px;
+  border-bottom:0.5px solid rgba(200,168,130,0.25);flex-shrink:0;
+}
+.home-header-row{display:flex;align-items:center;justify-content:space-between;}
+.home-logo{font-size:18px;font-weight:900;color:var(--brown2);}
+.user-pill{
+  display:flex;align-items:center;gap:7px;background:white;
+  border-radius:20px;padding:5px 10px 5px 5px;
+  border:1px solid rgba(200,168,130,0.3);
+}
+.user-pill .avatar{font-size:18px;}
+.user-pill .uname{font-size:12px;font-weight:700;color:var(--text-dark);}
+
+.mode-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;gap:10px;
+}
+.lift-timer-badge{
+  background:linear-gradient(135deg,#8BAF7C,#6A9460);
+  color:white;border-radius:12px;padding:5px 12px;
+  font-size:11px;font-weight:800;flex-shrink:0;
+}
+.lift-timer-badge.off{background:var(--soft-beige);color:var(--text-light);}
+
+/* RADAR */
+.radar-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0;}
+.radar-zone{
+  width:260px;height:260px;position:relative;
+  flex-shrink:0;
+}
+.r-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(200,168,130,0.25);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.r-ripple{
+  position:absolute;border-radius:50%;
+  border:2px solid rgba(200,168,130,0.35);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:ripple-out 3s ease-out infinite;
+}
+@keyframes ripple-out{
+  0%{opacity:0.7;transform:translate(-50%,-50%) scale(0.2);}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1);}
+}
+.r-center{
+  width:56px;height:56px;background:white;border-radius:50%;
+  border:3px solid var(--milk2);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;z-index:5;box-shadow:var(--shadow);
+}
+.tea-spirit{
+  position:absolute;width:42px;height:42px;background:white;
+  border-radius:50%;border:2px solid #DCC9A8;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform 0.2s;
+  box-shadow:var(--shadow-sm);z-index:4;
+}
+.tea-spirit:hover,.tea-spirit:active{transform:scale(1.15);}
+.sp-face{font-size:18px;line-height:1;}
+.sp-dot{width:7px;height:7px;border-radius:50%;background:var(--matcha);margin-top:2px;}
+.tea-spirit.matched .sp-dot{background:var(--peach2);animation:pulse-dot 1s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
+
+/* TAG SELECTOR */
+.tag-section{padding:0 16px;}
+.tag-grid{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;}
+.tag-chip{
+  padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  cursor:pointer;border:1.5px solid;transition:all 0.15s;
+  font-family:'Nunito',sans-serif;
+}
+.tag-chip:active{transform:scale(0.93);}
+.chip-full{background:var(--soft-pink);border-color:var(--peach2);color:#C0546A;}
+.chip-half{background:#FFF3E0;border-color:#F0C070;color:#B07820;}
+.chip-none{background:var(--soft-green);border-color:var(--matcha);color:var(--matcha2);}
+.chip-pearl{background:#EDE0F0;border-color:#C090D0;color:#8040A0;}
+.chip-taro{background:#E8E0F8;border-color:#A090E0;color:#604898;}
+.chip-jelly{background:#E0F4F8;border-color:#70C0D8;color:#286880;}
+.chip-hot{background:#FFEDE0;border-color:#F09060;color:#C05020;}
+.chip-less-ice{background:#E8F4FF;border-color:#80B8E8;color:#205880;}
+.tag-chip.selected{box-shadow:0 0 0 2px currentColor;}
+
+.lift-btn-big{
+  margin:14px 16px 8px;
+  background:linear-gradient(135deg,#D4856A,#C07060);
+  color:white;border:none;border-radius:18px;padding:14px;
+  font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;
+  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
+  box-shadow:0 4px 16px rgba(192,112,96,0.3);
+  width:calc(100% - 32px);
+}
+.lift-btn-big:active{transform:scale(0.97);}
+.lift-btn-big.stop{background:linear-gradient(135deg,#C8A882,#B09070);}
+
+/* ══════════════════════════════════
+   SCREEN 4: MATCH / CHEERS
+══════════════════════════════════ */
+#screen-match{
+  background:radial-gradient(ellipse at 50% 30%,#FFF0E8 0%,#FDDCC8 60%,#F5C8A8 100%);
+}
+.match-wrap{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px;position:relative;overflow:hidden;
+}
+.confetti-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.confetti-piece{
+  position:absolute;border-radius:50%;
+  animation:fall-down 4s linear infinite;
+}
+@keyframes fall-down{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(900px) rotate(720deg);opacity:0;}
+}
+
+.match-title-badge{
+  background:white;border-radius:24px;padding:8px 20px;
+  font-size:13px;font-weight:800;color:var(--brown);
+  border:2px solid var(--milk2);margin-bottom:16px;
+  box-shadow:var(--shadow-sm);
+}
+.cheers-animation{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px;}
+.cup-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.cup-big{font-size:52px;animation:cup-clink 1.4s ease-in-out infinite alternate;}
+.cup-big.right{animation-direction:alternate-reverse;}
+@keyframes cup-clink{
+  0%{transform:rotate(-14deg) translateY(0);}
+  100%{transform:rotate(14deg) translateY(-6px);}
+}
+.cup-name{font-size:11px;color:var(--text-mid);font-weight:700;}
+.clink-spark{font-size:28px;padding-bottom:10px;animation:spark 0.9s ease-in-out infinite alternate;}
+@keyframes spark{0%{transform:scale(0.7);opacity:0.5;}100%{transform:scale(1.3);opacity:1;}}
+
+.slogan-card{
+  background:white;border-radius:20px;padding:14px 18px;
+  text-align:center;border:1.5px solid #DCC9A8;
+  margin-bottom:16px;max-width:280px;box-shadow:var(--shadow-sm);
+}
+.slogan-icon{font-size:24px;margin-bottom:6px;}
+.slogan-main{font-size:15px;font-weight:800;color:var(--brown);}
+.slogan-desc{font-size:11px;color:var(--text-light);margin-top:5px;line-height:1.5;}
+
+.peer-cards{display:flex;gap:10px;margin-bottom:18px;}
+.peer-card{
+  background:white;border-radius:16px;padding:12px;
+  border:1.5px solid #DCC9A8;text-align:center;
+  min-width:110px;box-shadow:var(--shadow-sm);
+}
+.peer-card .pc-avatar{font-size:28px;display:block;margin-bottom:4px;}
+.peer-card .pc-name{font-size:12px;font-weight:800;color:var(--text-dark);}
+.peer-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
+.peer-tag{
+  font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;
+  background:var(--soft-pink);color:#C0546A;
+}
+.peer-tag.g{background:var(--soft-green);color:var(--matcha2);}
+.peer-tag.b{background:#FFF3E0;color:#B07820;}
+.peer-tag.p{background:#EDE0F0;color:#8040A0;}
+
+.match-action-row{display:flex;gap:10px;width:100%;}
+.btn-cheers{
+  flex:2;background:linear-gradient(135deg,#D4856A,#C07060);
+  color:white;border:none;border-radius:16px;padding:13px;
+  font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;
+  box-shadow:0 4px 12px rgba(192,112,96,0.3);transition:transform 0.15s;
+}
+.btn-cheers:active{transform:scale(0.96);}
+.btn-pass{
+  flex:1;background:white;color:var(--text-mid);
+  border:1.5px solid #DCC9A8;border-radius:16px;padding:13px;
+  font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;
+}
+.hint-text{font-size:10px;color:#C8A882;text-align:center;margin-top:10px;}
+
+/* ══════════════════════════════════
+   SCREEN 5: CHAT
+══════════════════════════════════ */
+#screen-chat{background:var(--soft-beige);}
+.chat-header{
+  background:white;border-bottom:1px solid rgba(200,168,130,0.25);
+  padding:12px 16px;display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+.back-btn{
+  width:32px;height:32px;border-radius:50%;background:var(--soft-beige);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;color:var(--text-mid);flex-shrink:0;
+  border:none;font-family:'Nunito',sans-serif;
+}
+.peer-avatar-lg{font-size:26px;flex-shrink:0;}
+.peer-details{flex:1;}
+.peer-dname{font-size:14px;font-weight:800;color:var(--text-dark);}
+.peer-dtags{font-size:10px;color:var(--text-light);}
+.timer-chip{
+  background:var(--soft-pink);border-radius:12px;
+  padding:5px 10px;text-align:center;flex-shrink:0;
+}
+.timer-num{font-size:15px;font-weight:900;color:#C0546A;display:block;font-variant-numeric:tabular-nums;}
+.timer-lbl{font-size:8px;color:#E08080;font-weight:700;}
+
+.chat-messages{
+  flex:1;padding:12px;display:flex;flex-direction:column;
+  gap:8px;overflow-y:auto;
+}
+.chat-messages::-webkit-scrollbar{display:none;}
+.msg-system{
+  text-align:center;font-size:10px;color:var(--text-light);
+  background:rgba(255,255,255,0.7);padding:4px 12px;
+  border-radius:12px;align-self:center;font-weight:600;
+}
+.msg-bubble{
+  max-width:72%;padding:9px 13px;border-radius:18px;
+  font-size:13px;line-height:1.5;font-weight:600;
+}
+.msg-them{
+  background:white;border:1px solid rgba(200,168,130,0.3);
+  color:var(--text-dark);align-self:flex-start;
+  border-bottom-left-radius:5px;
+}
+.msg-me{
+  background:linear-gradient(135deg,#E8A87C,#D48570);
+  color:white;align-self:flex-end;border-bottom-right-radius:5px;
+}
+.msg-time{font-size:9px;color:var(--text-light);margin-top:2px;}
+.msg-time.right{text-align:right;}
+
+.chat-input-bar{
+  background:white;border-top:0.5px solid rgba(200,168,130,0.3);
+  padding:10px 12px;display:flex;gap:8px;align-items:center;
+  flex-shrink:0;
+}
+.chat-inp{
+  flex:1;background:var(--soft-beige);border:1.5px solid #DCC9A8;
+  border-radius:22px;padding:8px 16px;font-size:13px;
+  color:var(--text-dark);font-family:'Nunito',sans-serif;outline:none;
+}
+.chat-inp:focus{border-color:var(--pearl);}
+.send-btn{
+  width:36px;height:36px;background:var(--matcha);border-radius:50%;
+  border:none;font-size:16px;cursor:pointer;color:white;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform 0.15s;
+}
+.send-btn:active{transform:scale(0.9);}
+
+/* chat expired overlay */
+.chat-expired{
+  position:absolute;inset:0;background:rgba(253,240,224,0.95);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;padding:32px;
+}
+.expired-icon{font-size:48px;}
+.expired-title{font-size:18px;font-weight:900;color:var(--brown);}
+.expired-sub{font-size:12px;color:var(--text-light);text-align:center;line-height:1.6;}
+
+/* ══════════════════════════════════
+   SCREEN 6: HISTORY
+══════════════════════════════════ */
+#screen-history{background:var(--soft-beige);}
+.history-header{
+  background:white;border-bottom:0.5px solid rgba(200,168,130,0.25);
+  padding:16px 20px;flex-shrink:0;
+}
+.history-header h2{font-size:18px;font-weight:900;color:var(--brown2);}
+.history-header p{font-size:11px;color:var(--text-light);margin-top:2px;}
+.history-list{padding:12px;display:flex;flex-direction:column;gap:10px;}
+.flavor-card{
+  background:white;border-radius:18px;
+  border:1.5px solid rgba(200,168,130,0.3);
+  padding:14px;display:flex;gap:12px;align-items:center;
+  box-shadow:var(--shadow-sm);cursor:pointer;
+  transition:transform 0.15s;
+}
+.flavor-card:active{transform:scale(0.98);}
+.fc-avatar{font-size:32px;flex-shrink:0;}
+.fc-info{flex:1;}
+.fc-name{font-size:14px;font-weight:800;color:var(--text-dark);}
+.fc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.fc-tag{
+  font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;
+}
+.fc-quote{font-size:10px;color:var(--text-mid);margin-top:5px;font-style:italic;line-height:1.4;}
+.fc-meta{text-align:right;flex-shrink:0;}
+.fc-date{font-size:9px;color:var(--text-light);line-height:1.5;}
+.fc-heart{font-size:14px;}
+
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 32px;gap:12px;
+}
+.empty-icon{font-size:48px;opacity:0.5;}
+.empty-text{font-size:13px;color:var(--text-light);text-align:center;line-height:1.6;}
+
+/* ══════════════════════════════════
+   LOADING / TOAST
+══════════════════════════════════ */
+.loading-overlay{
+  position:absolute;inset:0;background:rgba(253,246,238,0.9);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;z-index:200;
+}
+.spinner{
+  width:36px;height:36px;border:3px solid var(--milk2);
+  border-top-color:var(--brown);border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--text-mid);font-weight:700;}
+
+.toast{
+  position:absolute;bottom:90px;left:50%;transform:translateX(-50%);
+  background:var(--brown2);color:white;padding:10px 20px;
+  border-radius:20px;font-size:12px;font-weight:700;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+  white-space:nowrap;z-index:300;
+}
+.toast.show{opacity:1;}
+
+/* ── CONFIG BANNER ── */
+.config-banner{
+  background:linear-gradient(135deg,#F5E6D3,#FADDDD);
+  border:1.5px solid #DCC9A8;border-radius:16px;
+  padding:14px 16px;margin:0 16px 8px;
+  font-size:11px;color:var(--text-mid);line-height:1.6;
+}
+.config-banner strong{color:var(--brown);display:block;font-size:12px;margin-bottom:4px;}
+.config-banner code{
+  background:rgba(200,168,130,0.25);padding:2px 6px;
+  border-radius:6px;font-size:10px;color:var(--brown2);
+}
+
+/* ── NO MATCH FOUND ── */
+.no-match-card{
+  background:white;border-radius:20px;padding:24px;
+  margin:20px 16px;text-align:center;
+  border:1.5px solid rgba(200,168,130,0.3);
+  box-shadow:var(--shadow-sm);
+}
+.no-match-icon{font-size:40px;margin-bottom:10px;}
+.no-match-title{font-size:15px;font-weight:800;color:var(--text-dark);}
+.no-match-sub{font-size:11px;color:var(--text-light);margin-top:6px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="status-bar">
+    <span class="status-time" id="clock">9:41</span>
+    <div class="status-icons"><span>🧋</span><span id="conn-dot">●●●</span></div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ────────────────────────────────
+       SCREEN: WELCOME (LOGIN)
+  ──────────────────────────────────── -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-bg">
+      <div class="welcome-logo">
+        <div class="logo-bubble">🧋</div>
+        <div class="logo-title">碰杯</div>
+        <div class="logo-sub">Taste Adventure · 找到你的味覺靈魂伴侶</div>
+      </div>
+
+      <div class="welcome-card">
+        <div class="card-title">👋 歡迎回來</div>
+        <div class="input-group">
+          <input class="inp" id="login-name" type="text" placeholder="你的暱稱 🌿" autocomplete="off"/>
+          <input class="inp" id="login-pass" type="password" placeholder="密碼 🔒"/>
+          <button class="btn-primary" onclick="doLogin()">喝一杯再說 →</button>
+        </div>
+        <div class="divider" style="margin:12px 0;">或</div>
+        <button class="btn-secondary" onclick="goScreen('register')">✨ 第一次來？加入我們</button>
+      </div>
+
+      <!-- Demo mode note -->
+      <div style="font-size:10px;color:var(--text-light);text-align:center;padding:8px 16px;line-height:1.6;">
+        💡 尚未設定 Supabase？<br/>可直接點「喝一杯再說」體驗展示模式
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────
+       SCREEN: REGISTER
+  ──────────────────────────────────── -->
+  <div class="screen" id="screen-register">
+    <div class="reg-scroll">
+      <div style="text-align:center;margin-bottom:4px;">
+        <div style="font-size:24px;font-weight:900;color:var(--brown2);">建立你的茶靈檔案</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:4px;">Choose your bubble tea spirit</div>
+      </div>
+
+      <div class="section-title">選擇人偶角色</div>
+      <div class="avatar-grid" id="avatar-grid">
+        <!-- 8 avatars injected by JS -->
+      </div>
+
+      <div class="section-title">基本資料</div>
+      <div class="input-group">
+        <input class="inp" id="reg-name" placeholder="暱稱（其他人會看到）🌿" autocomplete="off"/>
+        <input class="inp" id="reg-email" type="email" placeholder="電子信箱 ✉️"/>
+        <input class="inp" id="reg-pass" type="password" placeholder="設定密碼 🔒"/>
+        <input class="inp" id="reg-pass2" type="password" placeholder="再輸入一次密碼 🔒"/>
+      </div>
+
+      <button class="btn-primary" onclick="doRegister()">開始我的味覺冒險 🧋</button>
+      <button class="btn-secondary" onclick="goScreen('welcome')" style="margin-top:4px;">← 返回登入</button>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────
+       SCREEN: HOME (RADAR)
+  ──────────────────────────────────── -->
+  <div class="screen" id="screen-home">
+    <div class="home-header">
+      <div class="home-header-row">
+        <div class="home-logo">🧋 碰杯</div>
+        <div class="user-pill">
+          <span class="avatar" id="header-avatar">🧋</span>
+          <span class="uname" id="header-name">我</span>
+        </div>
+      </div>
+      <div class="mode-toggle-row">
+        <div style="font-size:11px;color:var(--text-light);">附近茶靈雷達</div>
+        <div class="lift-timer-badge off" id="lift-badge">舉杯模式關閉</div>
+      </div>
+    </div>
+
+    <div class="scroll-area">
+      <!-- Radar -->
+      <div class="radar-wrap">
+        <div class="radar-zone" id="radar-zone">
+          <div class="r-ring" style="width:240px;height:240px;"></div>
+          <div class="r-ring" style="width:180px;height:180px;"></div>
+          <div class="r-ring" style="width:120px;height:120px;"></div>
+          <div class="r-ripple" style="width:250px;height:250px;animation-delay:0s;"></div>
+          <div class="r-ripple" style="width:200px;height:200px;animation-delay:0.8s;"></div>
+          <div class="r-ripple" style="width:148px;height:148px;animation-delay:1.6s;"></div>
+          <div class="r-center">🧋</div>
+          <!-- spirits injected by JS -->
+        </div>
+        <div style="font-size:10px;color:var(--text-light);margin-top:6px;">
+          粉點 = 同標籤茶靈，點擊可發送乾杯
+        </div>
+      </div>
+
+      <!-- Tag selector -->
+      <div class="tag-section">
+        <div class="section-title" style="font-size:11px;">我的飲料偏好標籤（可多選）</div>
+        <div class="tag-grid" id="tag-grid">
+          <div class="tag-chip chip-full" data-tag="全糖" onclick="toggleTag(this)">🍬 全糖</div>
+          <div class="tag-chip chip-half" data-tag="半糖" onclick="toggleTag(this)">🥛 半糖</div>
+          <div class="tag-chip chip-none" data-tag="無糖" onclick="toggleTag(this)">🌿 無糖</div>
+          <div class="tag-chip chip-pearl" data-tag="加珍珠" onclick="toggleTag(this)">🖤 加珍珠</div>
+          <div class="tag-chip chip-taro" data-tag="芋頭" onclick="toggleTag(this)">💜 芋頭</div>
+          <div class="tag-chip chip-jelly" data-tag="椰果" onclick="toggleTag(this)">🫙 椰果</div>
+          <div class="tag-chip chip-hot" data-tag="熱的" onclick="toggleTag(this)">🔥 熱的</div>
+          <div class="tag-chip chip-less-ice" data-tag="少冰" onclick="toggleTag(this)">🧊 少冰</div>
+        </div>
+      </div>
+
+      <button class="lift-btn-big" id="lift-btn" onclick="toggleLiftMode()">
+        🧋 啟動舉杯模式
+      </button>
+
+      <div style="height:8px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="goScreen('home')">
+        <span class="nav-icon">📡</span><span class="nav-label">探索</span>
+      </div>
+      <div class="nav-item" onclick="goScreen('match')">
+        <span class="nav-icon">🥂</span><span class="nav-label">配對</span>
+      </div>
+      <div class="nav-item" onclick="goScreen('chat')">
+        <span class="nav-icon">💬</span><span class="nav-label">聊天</span>
+      </div>
+      <div class="nav-item" onclick="goScreen('history')">
+        <span class="nav-icon">📖</span><span class="nav-label">圖鑑</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────
+       SCREEN: MATCH
+  ──────────────────────────────────── -->
+  <div class="screen" id="screen-match">
+    <div class="match-wrap" id="match-wrap">
+      <!-- confetti -->
+      <div class="confetti-layer" id="confetti-layer"></div>
+
+      <div class="match-title-badge">✨ 味覺共鳴！配對成功</div>
+
+      <div class="cheers-animation">
+        <div class="cup-wrap">
+          <div class="cup-big" id="my-cup">🧋</div>
+          <div class="cup-name" id="my-cup-name">我</div>
+        </div>
+        <div class="clink-spark">✨</div>
+        <div class="cup-wrap">
+          <div class="cup-big right" id="peer-cup">🍵</div>
+          <div class="cup-name" id="peer-cup-name">對方</div>
+        </div>
+      </div>
+
+      <div class="slogan-card">
+        <div class="slogan-icon" id="slogan-icon">🐜</div>
+        <div class="slogan-main" id="slogan-main">恭喜！螞蟻同好 +1</div>
+        <div class="slogan-desc" id="slogan-desc">你們都愛全糖，甜蜜指數爆表！</div>
+      </div>
+
+      <div class="peer-cards">
+        <div class="peer-card">
+          <span class="pc-avatar" id="match-my-avatar">🧋</span>
+          <div class="pc-name" id="match-my-name">我</div>
+          <div class="peer-tags" id="match-my-tags"></div>
+        </div>
+        <div class="peer-card">
+          <span class="pc-avatar" id="match-peer-avatar">🍵</span>
+          <div class="pc-name" id="match-peer-name">對方</div>
+          <div class="peer-tags" id="match-peer-tags"></div>
+        </div>
+      </div>
+
+      <div class="match-action-row">
+        <button class="btn-cheers" onclick="sendCheersRequest()">🥂 發送乾杯請求</button>
+        <button class="btn-pass" onclick="goScreen('home')">略過</button>
+      </div>
+      <div class="hint-text">雙方同意後解鎖 5 分鐘限時聊天室</div>
+    </div>
+
+    <!-- no match state -->
+    <div id="no-match-state" style="display:none;flex:1;flex-direction:column;">
+      <div class="no-match-card">
+        <div class="no-match-icon">🫧</div>
+        <div class="no-match-title">目前沒有同標籤的茶靈</div>
+        <div class="no-match-sub">先啟動舉杯模式，靜候同好出現<br/>說不定下一秒就碰杯了 ☕</div>
+      </div>
+      <button class="btn-primary" style="margin:0 20px;" onclick="goScreen('home')">去啟動舉杯模式 →</button>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><span class="nav-icon">📡</span><span class="nav-label">探索</span></div>
+      <div class="nav-item active"><span class="nav-icon">🥂</span><span class="nav-label">配對</span></div>
+      <div class="nav-item" onclick="goScreen('chat')"><span class="nav-icon">💬</span><span class="nav-label">聊天</span></div>
+      <div class="nav-item" onclick="goScreen('history')"><span class="nav-icon">📖</span><span class="nav-label">圖鑑</span></div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────
+       SCREEN: CHAT
+  ──────────────────────────────────── -->
+  <div class="screen" id="screen-chat">
+    <div class="chat-header">
+      <button class="back-btn" onclick="goScreen('home')">‹</button>
+      <div class="peer-avatar-lg" id="chat-peer-avatar">👧</div>
+      <div class="peer-details">
+        <div class="peer-dname" id="chat-peer-name">茶靈</div>
+        <div class="peer-dtags" id="chat-peer-tags">全糖・加珍珠</div>
+      </div>
+      <div class="timer-chip">
+        <span class="timer-num" id="chat-timer-display">5:00</span>
+        <div class="timer-lbl">限時聊天</div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg-system">🥂 乾杯請求已接受！限時聊天室開啟</div>
+    </div>
+
+    <div class="chat-input-bar">
+      <input class="chat-inp" id="chat-input" placeholder="說點甜甜的話…" autocomplete="off"
+        onkeydown="if(event.key==='Enter')sendMessage()"/>
+      <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+
+    <!-- expired overlay (hidden by default) -->
+    <div class="chat-expired" id="chat-expired" style="display:none;">
+      <div class="expired-icon">⏰</div>
+      <div class="expired-title">聊天室已關閉</div>
+      <div class="expired-sub">5 分鐘限時已到期<br/>對方的味覺卡片已存入你的緣分圖鑑✨</div>
+      <button class="btn-primary" style="width:200px;" onclick="goScreen('history')">查看緣分圖鑑 →</button>
+      <button class="btn-secondary" style="width:200px;" onclick="goScreen('home')">繼續探索</button>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────
+       SCREEN: HISTORY
+  ──────────────────────────────────── -->
+  <div class="screen" id="screen-history">
+    <div class="history-header">
+      <h2>📖 緣分圖鑑</h2>
+      <p id="history-subtitle">每一張都是獨一無二的味覺回憶</p>
+    </div>
+    <div class="scroll-area">
+      <div class="history-list" id="history-list">
+        <!-- injected by JS -->
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><span class="nav-icon">📡</span><span class="nav-label">探索</span></div>
+      <div class="nav-item" onclick="goScreen('match')"><span class="nav-icon">🥂</span><span class="nav-label">配對</span></div>
+      <div class="nav-item" onclick="goScreen('chat')"><span class="nav-icon">💬</span><span class="nav-label">聊天</span></div>
+      <div class="nav-item active"><span class="nav-icon">📖</span><span class="nav-label">圖鑑</span></div>
+    </div>
+  </div>
+
+  <!-- LOADING OVERLAY -->
+  <div class="loading-overlay" id="loading" style="display:none;">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">茶靈連線中…</div>
+  </div>
+</div>
+
+<!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* ════════════════════════════════════
+   CONFIG — 替換為你的 Supabase 憑證
+   ════════════════════════════════════ */
+const SUPABASE_URL = 'https://hhcubvixldieuwdeqnwc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhoY3Vidml4bGRpZXV3ZGVxbndjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjcyNDYsImV4cCI6MjA5MTE0MzI0Nn0.zkWxfm0FugSEL9zW6pwDFWPqmRJ3ystOZfU8yRL2lPo';
+const DEMO_MODE = (SUPABASE_URL === 'YOUR_SUPABASE_URL');
+
+let sb = null;
+if (!DEMO_MODE) {
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+/* ════════════════════════════════════
+   APP STATE
+   ════════════════════════════════════ */
+const state = {
+  user: null,          // { id, name, email, avatar_index, tags:[] }
+  liftActive: false,
+  liftExpiry: null,    // Date
+  liftTimerInterval: null,
+  currentMatch: null,  // { id, name, avatar_index, tags:[] }
+  currentMatchId: null,// matches table row id
+  chatTimerInterval: null,
+  chatSecs: 300,
+  chatChannel: null,
+  matchChannel: null,
+  selectedAvatar: 0,
+  selectedTags: [],
+  demoHistory: []
+};
+
+/* ════════════════════════════════════
+   AVATARS
+   ════════════════════════════════════ */
+const AVATARS = [
+  {emoji:'😄',name:'陽光男',gender:'m'},
+  {emoji:'🥰',name:'甜甜女',gender:'f'},
+  {emoji:'😆',name:'元氣弟',gender:'m'},
+  {emoji:'😊',name:'珍珠姐',gender:'f'},
+  {emoji:'😎',name:'抹茶哥',gender:'m'},
+  {emoji:'🤩',name:'焦糖妹',gender:'f'},
+  {emoji:'🧐',name:'濃郁叔',gender:'m'},
+  {emoji:'😇',name:'奶蓋姐',gender:'f'},
+];
+
+/* ════════════════════════════════════
+   MATCH SLOGANS
+   ════════════════════════════════════ */
+const SLOGANS = {
+  '全糖': {icon:'🐜',main:'恭喜！螞蟻同好 +1',desc:'你們都是全糖信徒，甜蜜指數直接爆表！'},
+  '半糖': {icon:'🍯',main:'半糖剛好！甜度默契十足',desc:'不甜不膩，你們的味覺頻率完美對齊～'},
+  '無糖': {icon:'🍃',main:'清醒派聯盟，歡迎入列',desc:'無糖不代表無趣，你們懂得回甘的美好！'},
+  '加珍珠': {icon:'🖤',main:'珍珠控現身！咬下去的快樂相同',desc:'每一顆珍珠都是命中注定的驚喜呢'},
+  '芋頭': {icon:'💜',main:'芋見你真好！紫色的緣分',desc:'芋頭的甘甜，串起了你們的味覺宇宙'},
+  '椰果': {icon:'🫙',main:'嚼勁愛好者同盟！Q彈萬歲',desc:'你們都懂得享受那份滑溜的口感幸福'},
+  '熱的': {icon:'☕',main:'熱飲派！溫暖靈魂的相遇',desc:'在寒冷的世界裡，你們選擇了同樣的溫度'},
+  '少冰': {icon:'🧊',main:'少冰精算師，風味把關中',desc:'不讓冰稀釋了美好，你們都是茶湯的守護者'},
+};
+const DEFAULT_SLOGAN = {icon:'🧋',main:'味覺共鳴！相遇即是緣',desc:'不同的標籤，相同的對手搖飲品味～'};
+
+/* ════════════════════════════════════
+   DEMO DATA
+   ════════════════════════════════════ */
+const DEMO_SPIRITS = [
+  {id:'d1',name:'甜心女',emoji:'🥰',tags:['全糖','去冰'],top:'18%',left:'15%',matched:true},
+  {id:'d2',name:'抹茶魂',emoji:'😎',tags:['無糖','抹茶'],top:'12%',left:'65%',matched:false},
+  {id:'d3',name:'珍珠姐',emoji:'😊',tags:['半糖','加珍珠'],top:'70%',left:'12%',matched:false},
+  {id:'d4',name:'元氣弟',emoji:'😆',tags:['全糖','熱的'],top:'68%',left:'68%',matched:true},
+  {id:'d5',name:'奶蓋姐',emoji:'😇',tags:['半糖','椰果'],top:'40%',left:'5%',matched:false},
+];
+
+const DEMO_HISTORY = [
+  {name:'甜心女',emoji:'🥰',tags:['全糖','去冰','茉莉'],quote:'甜得剛剛好，像第一口珍奶',date:'今天 14:32'},
+  {name:'抹茶魂',emoji:'😎',tags:['無糖','抹茶','全冰'],quote:'清爽如第一泡茶，回甘無窮',date:'昨天 10:15'},
+  {name:'珍珠姐',emoji:'😊',tags:['半糖','加珍珠'],quote:'每一顆珍珠都是驚喜',date:'週一 19:48'},
+];
+
+const TAG_COLORS = {
+  '全糖':'pink','半糖':'b','無糖':'g','加珍珠':'p',
+  '芋頭':'p','椰果':'g','熱的':'','少冰':'',
+  '去冰':'b','茉莉':'g','全冰':'','抹茶':'g',
+};
+
+/* ════════════════════════════════════
+   UTILS
+   ════════════════════════════════════ */
+function showLoading(text='茶靈連線中…'){
+  document.getElementById('loading').style.display='flex';
+  document.getElementById('loading-text').textContent=text;
+}
+function hideLoading(){document.getElementById('loading').style.display='none';}
+
+function showToast(msg,dur=2500){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function goScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  if(name==='history') renderHistory();
+  if(name==='match') renderMatch();
+  if(name==='home') renderRadar();
+  // update nav active
+  document.querySelectorAll('.bottom-nav .nav-item').forEach((n,i)=>{
+    const screens=['home','match','chat','history'];
+    n.classList.toggle('active',screens[i]===name);
+  });
+}
+
+/* clock */
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clock').textContent=
+    now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+}
+setInterval(updateClock,15000);updateClock();
+
+/* ════════════════════════════════════
+   AVATAR GRID
+   ════════════════════════════════════ */
+function renderAvatarGrid(){
+  const grid=document.getElementById('avatar-grid');
+  grid.innerHTML=AVATARS.map((a,i)=>`
+    <div class="avatar-cell ${i===0?'selected':''}" onclick="selectAvatar(${i})">
+      <span class="av-emoji">${a.emoji}</span>
+      <div class="av-name">${a.name}</div>
+    </div>`).join('');
+}
+function selectAvatar(i){
+  state.selectedAvatar=i;
+  document.querySelectorAll('.avatar-cell').forEach((c,j)=>
+    c.classList.toggle('selected',j===i));
+}
+renderAvatarGrid();
+
+/* ════════════════════════════════════
+   TAG TOGGLE
+   ════════════════════════════════════ */
+function toggleTag(el){
+  el.classList.toggle('selected');
+  const tag=el.dataset.tag;
+  if(state.selectedTags.includes(tag)){
+    state.selectedTags=state.selectedTags.filter(t=>t!==tag);
+  } else {
+    state.selectedTags.push(tag);
+  }
+}
+
+/* ════════════════════════════════════
+   AUTH — LOGIN
+   ════════════════════════════════════ */
+async function doLogin(){
+  const name=document.getElementById('login-name').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  if(!name){showToast('請輸入暱稱 🌿');return;}
+
+  if(DEMO_MODE){
+    state.user={id:'demo-'+Date.now(),name,avatar_index:0,tags:[]};
+    state.demoHistory=[...DEMO_HISTORY];
+    afterLogin();
+    return;
+  }
+
+  showLoading('驗證身分中…');
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({
+      email:document.getElementById('login-name').value+'@taste.app',
+      password:pass
+    });
+    if(error) throw error;
+    // fetch profile
+    const {data:profile}=await supabase
+      .from('users').select('*').eq('auth_id',data.user.id).single();
+    state.user={...profile, id:data.user.id};
+    afterLogin();
+  } catch(e){
+    showToast('登入失敗：'+e.message);
+  } finally{ hideLoading(); }
+}
+
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pass=document.getElementById('reg-pass').value;
+  const pass2=document.getElementById('reg-pass2').value;
+  if(!name||!email||!pass){showToast('請填寫完整資料 ✍️');return;}
+  if(pass!==pass2){showToast('密碼不一致 🔒');return;}
+  if(pass.length<6){showToast('密碼至少6位數');return;}
+
+  if(DEMO_MODE){
+    state.user={id:'demo-'+Date.now(),name,avatar_index:state.selectedAvatar,tags:[]};
+    state.demoHistory=[];
+    afterLogin();
+    return;
+  }
+
+  showLoading('建立茶靈中…');
+  try{
+    const {data,error}=await sb.auth.signUp({email,password:pass});
+    if(error) throw error;
+    const {error:e2}=await sb.from('users').insert({
+      auth_id:data.user.id, name,
+      avatar_index:state.selectedAvatar,tags:[],
+      created_at:new Date().toISOString()
+    });
+    if(e2) throw e2;
+    state.user={id:data.user.id,name,avatar_index:state.selectedAvatar,tags:[]};
+    showToast('歡迎加入碰杯！🧋');
+    afterLogin();
+  } catch(e){
+    showToast('註冊失敗：'+e.message);
+  } finally{ hideLoading(); }
+}
+
+function afterLogin(){
+  const av=AVATARS[state.user.avatar_index||0];
+  document.getElementById('header-avatar').textContent=av.emoji;
+  document.getElementById('header-name').textContent=state.user.name;
+  document.getElementById('my-cup-name').textContent=state.user.name;
+  document.getElementById('match-my-name').textContent=state.user.name;
+  document.getElementById('match-my-avatar').textContent=av.emoji;
+  goScreen('home');
+  if(!DEMO_MODE) subscribeToMatches();
+}
+
+/* ════════════════════════════════════
+   RADAR / SPIRITS
+   ════════════════════════════════════ */
+function renderRadar(){
+  const zone=document.getElementById('radar-zone');
+  // remove existing spirits
+  zone.querySelectorAll('.tea-spirit').forEach(s=>s.remove());
+
+  const spirits=DEMO_MODE ? DEMO_SPIRITS : (state.nearbyUsers||DEMO_SPIRITS);
+  spirits.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='tea-spirit'+(s.matched?' matched':'');
+    el.style.top=s.top;el.style.left=s.left;
+    el.innerHTML=`<div class="sp-face">${s.emoji}</div><div class="sp-dot"></div>`;
+    el.title=s.name;
+    el.onclick=()=>{ if(s.matched) triggerMatch(s); else showToast('標籤不同，無法配對 ☕'); };
+    zone.appendChild(el);
+  });
+}
+
+function triggerMatch(spirit){
+  if(!state.liftActive && !DEMO_MODE){ showToast('先啟動舉杯模式再配對！'); return; }
+  state.currentMatch=spirit;
+  renderMatchScreen(spirit);
+  goScreen('match');
+}
+
+/* ════════════════════════════════════
+   LIFT MODE
+   ════════════════════════════════════ */
+function toggleLiftMode(){
+  if(state.liftActive){
+    stopLiftMode();
+  } else {
+    startLiftMode();
+  }
+}
+
+async function startLiftMode(){
+  if(state.selectedTags.length===0){
+    showToast('請先選擇至少一個飲料標籤！');return;
+  }
+  state.liftActive=true;
+  state.liftExpiry=new Date(Date.now()+60*60*1000);
+
+  // update badge
+  updateLiftBadge();
+  state.liftTimerInterval=setInterval(updateLiftBadge,1000);
+
+  const btn=document.getElementById('lift-btn');
+  btn.textContent='✋ 停止舉杯模式';
+  btn.classList.add('stop');
+
+  showToast('舉杯模式啟動！🧋 探索同好中…');
+
+  if(!DEMO_MODE && supabase){
+    const {error}=await sb.from('lift_sessions').insert({
+      user_id:state.user.id,
+      tags:state.selectedTags,
+      expires_at:state.liftExpiry.toISOString()
+    });
+    if(error) showToast('連線失敗，請稍後再試');
+    else subscribeToMatches();
+  }
+
+  // demo: show spirits as matched
+  renderRadar();
+}
+
+function stopLiftMode(){
+  state.liftActive=false;
+  if(state.liftTimerInterval){ clearInterval(state.liftTimerInterval); state.liftTimerInterval=null; }
+  const btn=document.getElementById('lift-btn');
+  btn.textContent='🧋 啟動舉杯模式';
+  btn.classList.remove('stop');
+  document.getElementById('lift-badge').textContent='舉杯模式關閉';
+  document.getElementById('lift-badge').className='lift-timer-badge off';
+}
+
+function updateLiftBadge(){
+  if(!state.liftExpiry) return;
+  const diff=Math.max(0,Math.floor((state.liftExpiry-Date.now())/1000));
+  if(diff===0){ stopLiftMode(); return; }
+  const m=Math.floor(diff/60), s=diff%60;
+  const badge=document.getElementById('lift-badge');
+  badge.textContent=`舉杯中 ${m}:${s<10?'0':''}${s}`;
+  badge.className='lift-timer-badge';
+}
+
+/* ════════════════════════════════════
+   MATCH SCREEN
+   ════════════════════════════════════ */
+function renderMatchScreen(peer){
+  const matchWrap=document.getElementById('match-wrap');
+  matchWrap.style.display='flex';
+  document.getElementById('no-match-state').style.display='none';
+
+  // cups
+  const myAv=AVATARS[state.user?.avatar_index||0];
+  document.getElementById('my-cup').textContent=myAv.emoji;
+  document.getElementById('peer-cup').textContent=peer.emoji;
+  document.getElementById('peer-cup-name').textContent=peer.name;
+  document.getElementById('match-peer-name').textContent=peer.name;
+  document.getElementById('match-peer-avatar').textContent=peer.emoji;
+
+  // slogan — find shared tag
+  const myTags=state.selectedTags.length?state.selectedTags:(state.user?.tags||[]);
+  const sharedTag=(myTags).find(t=>peer.tags&&peer.tags.includes(t));
+  const slogan=SLOGANS[sharedTag]||DEFAULT_SLOGAN;
+  document.getElementById('slogan-icon').textContent=slogan.icon;
+  document.getElementById('slogan-main').textContent=slogan.main;
+  document.getElementById('slogan-desc').textContent=slogan.desc;
+
+  // tags
+  const renderTags=(containerId,tags)=>{
+    const el=document.getElementById(containerId);
+    el.innerHTML=(tags||[]).map(t=>`
+      <div class="peer-tag ${TAG_COLORS[t]||''}">${t}</div>`).join('');
+  };
+  renderTags('match-my-tags',myTags);
+  renderTags('match-peer-tags',peer.tags||[]);
+
+  // confetti
+  spawnConfetti();
+}
+
+function renderMatch(){
+  if(state.currentMatch){
+    renderMatchScreen(state.currentMatch);
+  } else if(DEMO_MODE){
+    // show demo match
+    triggerMatch(DEMO_SPIRITS[0]);
+  } else {
+    document.getElementById('match-wrap').style.display='none';
+    document.getElementById('no-match-state').style.display='flex';
+  }
+}
+
+function spawnConfetti(){
+  const layer=document.getElementById('confetti-layer');
+  layer.innerHTML='';
+  const cols=['#F4A8A8','#8BAF7C','#F5E6D3','#EDD5B5','#DCC9A8','#FADDDD'];
+  for(let i=0;i<22;i++){
+    const d=document.createElement('div');
+    d.className='confetti-piece';
+    const sz=4+Math.random()*6;
+    d.style.cssText=`width:${sz}px;height:${sz}px;`+
+      `background:${cols[Math.floor(Math.random()*cols.length)]};`+
+      `left:${Math.random()*100}%;`+
+      `animation-duration:${3+Math.random()*2}s;`+
+      `animation-delay:${Math.random()*2}s;`;
+    layer.appendChild(d);
+  }
+}
+
+/* ════════════════════════════════════
+   CHEERS REQUEST + CHAT
+   ════════════════════════════════════ */
+async function sendCheersRequest(){
+  if(!state.currentMatch){ showToast('沒有配對對象');return; }
+
+  if(DEMO_MODE){
+    openChatRoom(state.currentMatch);
+    return;
+  }
+
+  showLoading('傳送乾杯請求…');
+  try{
+    const {data,error}=await sb.from('matches').insert({
+      user1_id:state.user.id,
+      user2_id:state.currentMatch.id,
+      status:'pending',
+      expires_at:new Date(Date.now()+5*60*1000).toISOString()
+    }).select().single();
+    if(error) throw error;
+    state.currentMatchId=data.id;
+    showToast('乾杯請求已發送！等待對方回應 🥂');
+  } catch(e){
+    showToast('發送失敗：'+e.message);
+  } finally{ hideLoading(); }
+}
+
+function openChatRoom(peer){
+  document.getElementById('chat-peer-avatar').textContent=peer.emoji;
+  document.getElementById('chat-peer-name').textContent=peer.name;
+  document.getElementById('chat-peer-tags').textContent=(peer.tags||[]).join('・');
+  document.getElementById('chat-expired').style.display='none';
+  document.getElementById('chat-messages').innerHTML=
+    '<div class="msg-system">🥂 乾杯請求已接受！限時聊天室開啟</div>';
+
+  // add demo messages
+  if(DEMO_MODE){
+    setTimeout(()=>addMessage('them',peer.name,'哈哈你也是同類！好開心遇到你 🧋'),800);
+    setTimeout(()=>addMessage('me','我','對啊！都是真正的飲料人 ✨'),1800);
+  }
+
+  goScreen('chat');
+  startChatTimer();
+  if(!DEMO_MODE) subscribeToChatRoom();
+}
+
+/* ════════════════════════════════════
+   CHAT TIMER
+   ════════════════════════════════════ */
+function startChatTimer(){
+  if(state.chatTimerInterval) clearInterval(state.chatTimerInterval);
+  state.chatSecs=300;
+  updateTimerDisplay();
+  state.chatTimerInterval=setInterval(()=>{
+    state.chatSecs--;
+    updateTimerDisplay();
+    if(state.chatSecs<=0){
+      clearInterval(state.chatTimerInterval);
+      chatExpired();
+    }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(state.chatSecs/60);
+  const s=state.chatSecs%60;
+  document.getElementById('chat-timer-display').textContent=
+    m+':'+(s<10?'0':'')+s;
+}
+
+function chatExpired(){
+  document.getElementById('chat-expired').style.display='flex';
+  document.getElementById('chat-input-bar')?.remove();
+  saveFlavorCard();
+  showToast('聊天室已關閉，味覺卡片已儲存 📖');
+}
+
+async function saveFlavorCard(){
+  const peer=state.currentMatch;
+  if(!peer) return;
+  const card={
+    name:peer.name,emoji:peer.emoji,
+    tags:peer.tags||[],
+    quote:getRandomQuote(peer.tags),
+    date:formatNow()
+  };
+  if(DEMO_MODE){
+    state.demoHistory.unshift(card);
+    return;
+  }
+  await sb.from('flavor_cards').insert({
+    owner_id:state.user.id,
+    peer_id:peer.id,
+    peer_name:peer.name,
+    peer_avatar:peer.emoji,
+    peer_tags:peer.tags,
+    quote:card.quote,
+    created_at:new Date().toISOString()
+  });
+}
+
+/* ════════════════════════════════════
+   SEND MESSAGE
+   ════════════════════════════════════ */
+async function sendMessage(){
+  const inp=document.getElementById('chat-input');
+  const text=inp.value.trim();
+  if(!text) return;
+  inp.value='';
+  addMessage('me','我',text);
+
+  if(DEMO_MODE){
+    setTimeout(()=>{
+      const replies=['哇真的！我每次必點 🧋','同感！口感超重要','下次一起去嚐嚐？☕'];
+      addMessage('them',state.currentMatch?.name||'茶靈',replies[Math.floor(Math.random()*replies.length)]);
+    },1200);
+    return;
+  }
+
+  await sb.from('messages').insert({
+    match_id:state.currentMatchId,
+    sender_id:state.user.id,
+    content:text,
+    created_at:new Date().toISOString()
+  });
+}
+
+function addMessage(side,name,text){
+  const el=document.createElement('div');
+  const now=new Date();
+  const timeStr=now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  el.innerHTML=`
+    <div class="msg-bubble msg-${side}">${text}</div>
+    <div class="msg-time ${side==='me'?'right':''}">${side==='me'?'我':name} ${timeStr}</div>`;
+  el.style.display='flex';
+  el.style.flexDirection='column';
+  const container=document.getElementById('chat-messages');
+  container.appendChild(el);
+  container.scrollTop=container.scrollHeight;
+}
+
+/* ════════════════════════════════════
+   HISTORY
+   ════════════════════════════════════ */
+async function renderHistory(){
+  const list=document.getElementById('history-list');
+
+  let cards=[];
+  if(DEMO_MODE){
+    cards=[...state.demoHistory];
+  } else {
+    const {data}=await supabase
+      .from('flavor_cards')
+      .select('*')
+      .eq('owner_id',state.user?.id)
+      .order('created_at',{ascending:false});
+    cards=(data||[]).map(r=>({
+      name:r.peer_name,emoji:r.peer_avatar,
+      tags:r.peer_tags||[],quote:r.quote,
+      date:formatDate(r.created_at)
+    }));
+  }
+
+  document.getElementById('history-subtitle').textContent=
+    cards.length>0?`共 ${cards.length} 張味覺卡片 ✨`:'每一張都是獨一無二的味覺回憶';
+
+  if(cards.length===0){
+    list.innerHTML=`
+      <div class="empty-state">
+        <div class="empty-icon">🫧</div>
+        <div class="empty-text">還沒有味覺卡片<br/>啟動舉杯模式，去遇見你的茶靈吧！</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML=cards.map(c=>`
+    <div class="flavor-card">
+      <div class="fc-avatar">${c.emoji}</div>
+      <div class="fc-info">
+        <div class="fc-name">${c.name}</div>
+        <div class="fc-tags">
+          ${(c.tags||[]).map(t=>`<div class="fc-tag" style="${tagStyle(t)}">${t}</div>`).join('')}
+        </div>
+        <div class="fc-quote">「${c.quote}」</div>
+      </div>
+      <div class="fc-meta">
+        <div class="fc-date">${c.date.replace(' ','\n')}</div>
+        <div class="fc-heart">💗</div>
+      </div>
+    </div>`).join('');
+}
+
+function tagStyle(tag){
+  const map={
+    '全糖':'background:#FADDDD;color:#C0546A;',
+    '半糖':'background:#FFF3E0;color:#B07820;',
+    '無糖':'background:#D4EBCC;color:#5A8040;',
+    '加珍珠':'background:#EDE0F0;color:#8040A0;',
+    '芋頭':'background:#E8E0F8;color:#604898;',
+    '去冰':'background:#FFF3E0;color:#B07820;',
+    '抹茶':'background:#D4EBCC;color:#5A8040;',
+    '全冰':'background:#E8F4FF;color:#205880;',
+    '茉莉':'background:#D4EBCC;color:#5A8040;',
+    '熱的':'background:#FFEDE0;color:#C05020;',
+  };
+  return (map[tag]||'background:#F5E6D3;color:#7A5C3A;')+'font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;';
+}
+
+/* ════════════════════════════════════
+   SUPABASE REALTIME
+   ════════════════════════════════════ */
+function subscribeToMatches(){
+  if(!supabase||!state.user) return;
+  if(state.matchChannel){ sb.removeChannel(state.matchChannel); }
+
+  state.matchChannel=sb.channel('matches-'+state.user.id)
+    .on('postgres_changes',{
+      event:'INSERT',schema:'public',table:'matches',
+      filter:`user2_id=eq.${state.user.id}`
+    },async(payload)=>{
+      const match=payload.new;
+      // fetch peer info
+      const {data:peer}=await supabase
+        .from('users').select('*').eq('auth_id',match.user1_id).single();
+      if(!peer) return;
+      state.currentMatch={...peer,id:match.user1_id};
+      state.currentMatchId=match.id;
+      renderMatchScreen(state.currentMatch);
+      showToast(`${peer.name} 向你發送了乾杯請求！🥂`);
+      // auto-accept for demo purposes — in prod show a modal
+      await sb.from('matches').update({status:'accepted'}).eq('id',match.id);
+      openChatRoom(state.currentMatch);
+    }).subscribe();
+}
+
+function subscribeToChatRoom(){
+  if(!supabase||!state.currentMatchId) return;
+  if(state.chatChannel){ sb.removeChannel(state.chatChannel); }
+
+  state.chatChannel=sb.channel('chat-'+state.currentMatchId)
+    .on('postgres_changes',{
+      event:'INSERT',schema:'public',table:'messages',
+      filter:`match_id=eq.${state.currentMatchId}`
+    },(payload)=>{
+      const msg=payload.new;
+      if(msg.sender_id===state.user.id) return; // already shown
+      addMessage('them',state.currentMatch?.name||'對方',msg.content);
+    }).subscribe();
+}
+
+/* ════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════ */
+function getRandomQuote(tags){
+  const quotes={
+    '全糖':['甜得恰到好處，像個好朋友','每一口都是正能量','濃郁的甜，是最直接的快樂'],
+    '無糖':['清醒的靈魂，才懂得回甘','淡而有味，細細品嚐','不需要糖，本身就是甜的'],
+    '半糖':['剛剛好的甜，是最難拿捏的藝術','適中，是成熟的味道','半糖人生，知足常樂'],
+    '加珍珠':['每一顆珍珠，都是意外的驚喜','咬下去的瞬間，幸福感爆炸','Q彈的快樂，無可取代'],
+  };
+  const tag=(tags||[]).find(t=>quotes[t]);
+  const pool=quotes[tag]||['每一次相遇，都是味覺的奇蹟','留在舌尖的，是獨特的你'];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function formatNow(){
+  const now=new Date();
+  const h=now.getHours(),m=now.getMinutes();
+  return `今天 ${h}:${m<10?'0':''}${m}`;
+}
+
+function formatDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  const now=new Date();
+  const diff=Math.floor((now-d)/86400000);
+  const h=d.getHours(),m=d.getMinutes();
+  const t=`${h}:${m<10?'0':''}${m}`;
+  if(diff===0) return `今天\n${t}`;
+  if(diff===1) return `昨天\n${t}`;
+  return `${d.getMonth()+1}/${d.getDate()}\n${t}`;
+}
+
+/* ════════════════════════════════════
+   EXPOSE TO WINDOW (for HTML onclick)
+   ════════════════════════════════════ */
+window.goScreen = goScreen;
+window.doLogin = doLogin;
+window.doRegister = doRegister;
+window.selectAvatar = selectAvatar;
+window.toggleTag = toggleTag;
+window.toggleLiftMode = toggleLiftMode;
+window.triggerMatch = triggerMatch;
+window.sendCheersRequest = sendCheersRequest;
+window.sendMessage = sendMessage;
+window.renderHistory = renderHistory;
+
+/* ════════════════════════════════════
+   INIT
+   ════════════════════════════════════ */
+if(DEMO_MODE){
+  console.log('%c碰杯 Demo Mode 啟用 🧋','color:#C9933A;font-weight:bold;font-size:14px;');
+}
+</script>
+</body>
+</html>
