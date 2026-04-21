@@ -839,14 +839,6 @@ const DEFAULT_SLOGAN = {icon:'🧋',main:'味覺共鳴！相遇即是緣',desc:'
 /* ════════════════════════════════════
    DEMO DATA
    ════════════════════════════════════ */
-const DEMO_SPIRITS = [
-  {id:'d1',name:'甜心女',emoji:'🥰',tags:['全糖','去冰'],top:'18%',left:'15%',matched:true},
-  {id:'d2',name:'抹茶魂',emoji:'😎',tags:['無糖','抹茶'],top:'12%',left:'65%',matched:false},
-  {id:'d3',name:'珍珠姐',emoji:'😊',tags:['半糖','加珍珠'],top:'70%',left:'12%',matched:false},
-  {id:'d4',name:'元氣弟',emoji:'😆',tags:['全糖','熱的'],top:'68%',left:'68%',matched:true},
-  {id:'d5',name:'奶蓋姐',emoji:'😇',tags:['半糖','椰果'],top:'40%',left:'5%',matched:false},
-];
-
 const DEMO_HISTORY = [
   {name:'甜心女',emoji:'🥰',tags:['全糖','去冰','茉莉'],quote:'甜得剛剛好，像第一口珍奶',date:'今天 14:32'},
   {name:'抹茶魂',emoji:'😎',tags:['無糖','抹茶','全冰'],quote:'清爽如第一泡茶，回甘無窮',date:'昨天 10:15'},
@@ -1015,15 +1007,23 @@ function afterLogin(){
    ════════════════════════════════════ */
 function renderRadar(){
   const zone=document.getElementById('radar-zone');
-  // remove existing spirits
   zone.querySelectorAll('.tea-spirit').forEach(s=>s.remove());
 
-  const spirits=DEMO_MODE ? DEMO_SPIRITS : (state.nearbyUsers||DEMO_SPIRITS);
-  spirits.forEach(s=>{
+  const spirits=state.nearbyUsers||[];
+  if(spirits.length===0) return; // 空雷達，等舉杯模式找到真實用戶
+
+  // 固定位置池
+  const positions=[
+    {top:'18%',left:'15%'},{top:'12%',left:'65%'},
+    {top:'70%',left:'12%'},{top:'68%',left:'68%'},
+    {top:'40%',left:'5%'},{top:'35%',left:'75%'},
+  ];
+  spirits.forEach((s,i)=>{
+    const pos=positions[i%positions.length];
     const el=document.createElement('div');
     el.className='tea-spirit'+(s.matched?' matched':'');
-    el.style.top=s.top;el.style.left=s.left;
-    el.innerHTML=`<div class="sp-face">${s.emoji}</div><div class="sp-dot"></div>`;
+    el.style.top=pos.top;el.style.left=pos.left;
+    el.innerHTML=`<div class="sp-face">${AVATARS[s.avatar_index||0].emoji}</div><div class="sp-dot"></div>`;
     el.title=s.name;
     el.onclick=()=>{ if(s.matched) triggerMatch(s); else showToast('標籤不同，無法配對 ☕'); };
     zone.appendChild(el);
@@ -1055,7 +1055,6 @@ async function startLiftMode(){
   state.liftActive=true;
   state.liftExpiry=new Date(Date.now()+60*60*1000);
 
-  // update badge
   updateLiftBadge();
   state.liftTimerInterval=setInterval(updateLiftBadge,1000);
 
@@ -1065,17 +1064,38 @@ async function startLiftMode(){
 
   showToast('舉杯模式啟動！🧋 探索同好中…');
 
-  if(!DEMO_MODE && supabase){
+  if(sb){
+    // 寫入自己的舉杯 session
     const {error}=await sb.from('bubbletea_lift_sessions').insert({
       user_id:state.user.id,
       tags:state.selectedTags,
       expires_at:state.liftExpiry.toISOString()
     });
-    if(error) showToast('連線失敗，請稍後再試');
-    else subscribeToMatches();
+    if(error){ showToast('連線失敗，請稍後再試'); return; }
+
+    // 查詢有相同標籤的其他舉杯用戶
+    await fetchNearbyUsers();
+    subscribeToMatches();
   }
 
-  // demo: show spirits as matched
+  renderRadar();
+}
+
+async function fetchNearbyUsers(){
+  const {data}=await sb.from('bubbletea_lift_sessions')
+    .select('user_id, tags, bubbletea_users(id, name, avatar_index, tags)')
+    .gt('expires_at', new Date().toISOString())
+    .neq('user_id', state.user.id);
+
+  if(!data) return;
+  state.nearbyUsers = data
+    .filter(row => row.bubbletea_users)
+    .map(row => {
+      const u = row.bubbletea_users;
+      const sharedTag = state.selectedTags.some(t => row.tags.includes(t));
+      return { id: u.id, name: u.name, avatar_index: u.avatar_index,
+               tags: row.tags, matched: sharedTag };
+    });
   renderRadar();
 }
 
@@ -1139,9 +1159,6 @@ function renderMatchScreen(peer){
 function renderMatch(){
   if(state.currentMatch){
     renderMatchScreen(state.currentMatch);
-  } else if(DEMO_MODE){
-    // show demo match
-    triggerMatch(DEMO_SPIRITS[0]);
   } else {
     document.getElementById('match-wrap').style.display='none';
     document.getElementById('no-match-state').style.display='flex';
@@ -1171,7 +1188,11 @@ function spawnConfetti(){
 async function sendCheersRequest(){
   if(!state.currentMatch){ showToast('沒有配對對象');return; }
 
-  if(DEMO_MODE){
+  // Demo 茶靈（id 不是 UUID）或 DEMO_MODE 都直接開聊天室
+  const isRealPeer = state.currentMatch.id &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(state.currentMatch.id);
+
+  if(DEMO_MODE || !isRealPeer){
     openChatRoom(state.currentMatch);
     return;
   }
@@ -1181,12 +1202,12 @@ async function sendCheersRequest(){
     const {data,error}=await sb.from('bubbletea_matches').insert({
       user1_id:state.user.id,
       user2_id:state.currentMatch.id,
-      status:'pending',
+      status:'accepted',
       expires_at:new Date(Date.now()+5*60*1000).toISOString()
     }).select().single();
     if(error) throw error;
     state.currentMatchId=data.id;
-    showToast('乾杯請求已發送！等待對方回應 🥂');
+    openChatRoom(state.currentMatch);
   } catch(e){
     showToast('發送失敗：'+e.message);
   } finally{ hideLoading(); }
