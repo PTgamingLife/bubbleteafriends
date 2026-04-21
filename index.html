@@ -927,8 +927,16 @@ function toggleTag(el){
 }
 
 /* ════════════════════════════════════
-   AUTH — LOGIN
+   AUTH — 純資料表登入（不用 Supabase Auth）
+   密碼用簡單 hash 存入 users 表
    ════════════════════════════════════ */
+
+// 簡易密碼 hash（不需後端，純前端用）
+async function hashPass(pass){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pass));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
 async function doLogin(){
   const name=document.getElementById('login-name').value.trim();
   const pass=document.getElementById('login-pass').value;
@@ -941,17 +949,13 @@ async function doLogin(){
     return;
   }
 
-  // 從 localStorage 取回註冊時的 fakeEmail
-  const saved=localStorage.getItem('taste_'+name);
-  if(!saved){showToast('找不到此帳號，請先註冊 🧋');return;}
-  const {email:fakeEmail}=JSON.parse(saved);
-
   showLoading('驗證身分中…');
   try{
-    const {data,error}=await sb.auth.signInWithPassword({email:fakeEmail,password:pass});
-    if(error) throw error;
-    const {data:profile}=await sb.from('users').select('*').eq('auth_id',data.user.id).single();
-    state.user={...profile, id:data.user.id};
+    const hashed=await hashPass(pass);
+    const {data,error}=await sb.from('bubbletea_users')
+      .select('*').eq('name',name).eq('pass_hash',hashed).single();
+    if(error||!data) throw new Error('暱稱或密碼錯誤');
+    state.user={...data};
     afterLogin();
   } catch(e){
     showToast('登入失敗：'+e.message);
@@ -974,26 +978,20 @@ async function doRegister(){
     return;
   }
 
-  // 用 name+隨機碼 產生假 email，繞過 email 驗證
-  const fakeEmail=name.replace(/\s+/g,'')+'.'+Math.floor(Math.random()*99999)+'@bubbleteafriends.app';
-
   showLoading('建立茶靈中…');
   try{
-    const {data,error}=await sb.auth.signUp({
-      email:fakeEmail,
-      password:pass,
-      options:{data:{name,phone}}
-    });
-    if(error) throw error;
-    const {error:e2}=await sb.from('users').insert({
-      auth_id:data.user.id, name, phone:phone||'',
+    // 檢查暱稱是否重複
+    const {data:exist}=await sb.from('bubbletea_users').select('id').eq('name',name).maybeSingle();
+    if(exist){showToast('此暱稱已被使用，換一個吧 🌿');hideLoading();return;}
+
+    const hashed=await hashPass(pass);
+    const {data,error}=await sb.from('bubbletea_users').insert({
+      name, phone:phone||'', pass_hash:hashed,
       avatar_index:state.selectedAvatar, tags:[],
       created_at:new Date().toISOString()
-    });
-    if(e2) throw e2;
-    // 存 fake email 到 localStorage 供之後登入用
-    localStorage.setItem('taste_'+name, JSON.stringify({email:fakeEmail,pass}));
-    state.user={id:data.user.id,name,avatar_index:state.selectedAvatar,tags:[]};
+    }).select().single();
+    if(error) throw error;
+    state.user={...data};
     showToast('歡迎加入碰杯！🧋');
     afterLogin();
   } catch(e){
@@ -1068,7 +1066,7 @@ async function startLiftMode(){
   showToast('舉杯模式啟動！🧋 探索同好中…');
 
   if(!DEMO_MODE && supabase){
-    const {error}=await sb.from('lift_sessions').insert({
+    const {error}=await sb.from('bubbletea_lift_sessions').insert({
       user_id:state.user.id,
       tags:state.selectedTags,
       expires_at:state.liftExpiry.toISOString()
@@ -1180,7 +1178,7 @@ async function sendCheersRequest(){
 
   showLoading('傳送乾杯請求…');
   try{
-    const {data,error}=await sb.from('matches').insert({
+    const {data,error}=await sb.from('bubbletea_matches').insert({
       user1_id:state.user.id,
       user2_id:state.currentMatch.id,
       status:'pending',
@@ -1257,7 +1255,7 @@ async function saveFlavorCard(){
     state.demoHistory.unshift(card);
     return;
   }
-  await sb.from('flavor_cards').insert({
+  await sb.from('bubbletea_flavor_cards').insert({
     owner_id:state.user.id,
     peer_id:peer.id,
     peer_name:peer.name,
@@ -1286,7 +1284,7 @@ async function sendMessage(){
     return;
   }
 
-  await sb.from('messages').insert({
+  await sb.from('bubbletea_messages').insert({
     match_id:state.currentMatchId,
     sender_id:state.user.id,
     content:text,
@@ -1319,7 +1317,7 @@ async function renderHistory(){
     cards=[...state.demoHistory];
   } else {
     const {data}=await sb
-      .from('flavor_cards')
+      .from('bubbletea_flavor_cards')
       .select('*')
       .eq('owner_id',state.user?.id)
       .order('created_at',{ascending:false});
@@ -1384,20 +1382,20 @@ function subscribeToMatches(){
 
   state.matchChannel=sb.channel('matches-'+state.user.id)
     .on('postgres_changes',{
-      event:'INSERT',schema:'public',table:'matches',
+      event:'INSERT',schema:'public',table:'bubbletea_matches',
       filter:`user2_id=eq.${state.user.id}`
     },async(payload)=>{
       const match=payload.new;
       // fetch peer info
       const {data:peer}=await sb
-        .from('users').select('*').eq('auth_id',match.user1_id).single();
+        .from('bubbletea_users').select('*').eq('auth_id',match.user1_id).single();
       if(!peer) return;
       state.currentMatch={...peer,id:match.user1_id};
       state.currentMatchId=match.id;
       renderMatchScreen(state.currentMatch);
       showToast(`${peer.name} 向你發送了乾杯請求！🥂`);
       // auto-accept for demo purposes — in prod show a modal
-      await sb.from('matches').update({status:'accepted'}).eq('id',match.id);
+      await sb.from('bubbletea_matches').update({status:'accepted'}).eq('id',match.id);
       openChatRoom(state.currentMatch);
     }).subscribe();
 }
@@ -1408,7 +1406,7 @@ function subscribeToChatRoom(){
 
   state.chatChannel=sb.channel('chat-'+state.currentMatchId)
     .on('postgres_changes',{
-      event:'INSERT',schema:'public',table:'messages',
+      event:'INSERT',schema:'public',table:'bubbletea_messages',
       filter:`match_id=eq.${state.currentMatchId}`
     },(payload)=>{
       const msg=payload.new;
