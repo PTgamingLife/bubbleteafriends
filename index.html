@@ -558,7 +558,7 @@ body{font-family:'Nunito','Noto Sans TC',sans-serif;display:flex;justify-content
       <div class="section-title">基本資料</div>
       <div class="input-group">
         <input class="inp" id="reg-name" placeholder="暱稱（其他人會看到）🌿" autocomplete="off"/>
-        <input class="inp" id="reg-email" type="email" placeholder="電子信箱 ✉️"/>
+        <input class="inp" id="reg-phone" type="tel" placeholder="手機號碼 📱（僅做紀錄）"/>
         <input class="inp" id="reg-pass" type="password" placeholder="設定密碼 🔒"/>
         <input class="inp" id="reg-pass2" type="password" placeholder="再輸入一次密碼 🔒"/>
       </div>
@@ -932,7 +932,7 @@ function toggleTag(el){
 async function doLogin(){
   const name=document.getElementById('login-name').value.trim();
   const pass=document.getElementById('login-pass').value;
-  if(!name){showToast('請輸入暱稱 🌿');return;}
+  if(!name||!pass){showToast('請輸入暱稱和密碼 🌿');return;}
 
   if(DEMO_MODE){
     state.user={id:'demo-'+Date.now(),name,avatar_index:0,tags:[]};
@@ -941,16 +941,16 @@ async function doLogin(){
     return;
   }
 
+  // 從 localStorage 取回註冊時的 fakeEmail
+  const saved=localStorage.getItem('taste_'+name);
+  if(!saved){showToast('找不到此帳號，請先註冊 🧋');return;}
+  const {email:fakeEmail}=JSON.parse(saved);
+
   showLoading('驗證身分中…');
   try{
-    const {data,error}=await sb.auth.signInWithPassword({
-      email:document.getElementById('login-name').value+'@taste.app',
-      password:pass
-    });
+    const {data,error}=await sb.auth.signInWithPassword({email:fakeEmail,password:pass});
     if(error) throw error;
-    // fetch profile
-    const {data:profile}=await supabase
-      .from('users').select('*').eq('auth_id',data.user.id).single();
+    const {data:profile}=await sb.from('users').select('*').eq('auth_id',data.user.id).single();
     state.user={...profile, id:data.user.id};
     afterLogin();
   } catch(e){
@@ -960,10 +960,10 @@ async function doLogin(){
 
 async function doRegister(){
   const name=document.getElementById('reg-name').value.trim();
-  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
   const pass=document.getElementById('reg-pass').value;
   const pass2=document.getElementById('reg-pass2').value;
-  if(!name||!email||!pass){showToast('請填寫完整資料 ✍️');return;}
+  if(!name||!pass){showToast('請填寫名字和密碼 ✍️');return;}
   if(pass!==pass2){showToast('密碼不一致 🔒');return;}
   if(pass.length<6){showToast('密碼至少6位數');return;}
 
@@ -974,16 +974,25 @@ async function doRegister(){
     return;
   }
 
+  // 用 name+隨機碼 產生假 email，繞過 email 驗證
+  const fakeEmail=name.replace(/\s+/g,'')+'.'+Math.floor(Math.random()*99999)+'@bubbleteafriends.app';
+
   showLoading('建立茶靈中…');
   try{
-    const {data,error}=await sb.auth.signUp({email,password:pass});
+    const {data,error}=await sb.auth.signUp({
+      email:fakeEmail,
+      password:pass,
+      options:{data:{name,phone}}
+    });
     if(error) throw error;
     const {error:e2}=await sb.from('users').insert({
-      auth_id:data.user.id, name,
-      avatar_index:state.selectedAvatar,tags:[],
+      auth_id:data.user.id, name, phone:phone||'',
+      avatar_index:state.selectedAvatar, tags:[],
       created_at:new Date().toISOString()
     });
     if(e2) throw e2;
+    // 存 fake email 到 localStorage 供之後登入用
+    localStorage.setItem('taste_'+name, JSON.stringify({email:fakeEmail,pass}));
     state.user={id:data.user.id,name,avatar_index:state.selectedAvatar,tags:[]};
     showToast('歡迎加入碰杯！🧋');
     afterLogin();
@@ -1309,7 +1318,7 @@ async function renderHistory(){
   if(DEMO_MODE){
     cards=[...state.demoHistory];
   } else {
-    const {data}=await supabase
+    const {data}=await sb
       .from('flavor_cards')
       .select('*')
       .eq('owner_id',state.user?.id)
@@ -1380,7 +1389,7 @@ function subscribeToMatches(){
     },async(payload)=>{
       const match=payload.new;
       // fetch peer info
-      const {data:peer}=await supabase
+      const {data:peer}=await sb
         .from('users').select('*').eq('auth_id',match.user1_id).single();
       if(!peer) return;
       state.currentMatch={...peer,id:match.user1_id};
