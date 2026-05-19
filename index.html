@@ -9,34 +9,71 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
   --milk:#F5E6D3;--milk2:#EDD5B5;--milk3:#D4B896;
-  --matcha:#8BAF7C;--matcha2:#6A9460;--matcha3:#4A7440;
+  --matcha:#8BAF7C;--matcha2:#6A9460;
   --peach:#F4A8A8;--peach2:#E88080;
   --pearl:#C8A882;--cream:#FDF6EE;
   --brown:#7A5C3A;--brown2:#5A3E28;
   --text-dark:#5A3E28;--text-mid:#8B6347;--text-light:#B8956A;
   --soft-pink:#FADDDD;--soft-green:#D4EBCC;--soft-beige:#F9F0E3;
-  --gold:#C9933A;
   --shadow:0 4px 20px rgba(122,92,58,0.12);
   --shadow-sm:0 2px 8px rgba(122,92,58,0.10);
 }
-html,body{height:100%;overflow:hidden;background:#EDD5B5;}
-body{font-family:'Nunito','Noto Sans TC',sans-serif;display:flex;justify-content:center;align-items:center;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Nunito','Noto Sans TC',sans-serif;
+  display:flex;justify-content:center;align-items:center;
+  background-color:#E8D5B7;
+  background-image:
+    /* 珍珠（大）*/
+    radial-gradient(circle at 20% 18%, #6B4226 7px, transparent 7px),
+    radial-gradient(circle at 75% 12%, #7A5C3A 5px, transparent 5px),
+    radial-gradient(circle at 45% 35%, #5A3820 6px, transparent 6px),
+    radial-gradient(circle at 88% 38%, #6B4226 7px, transparent 7px),
+    radial-gradient(circle at 10% 55%, #7A5C3A 5px, transparent 5px),
+    radial-gradient(circle at 60% 58%, #5A3820 8px, transparent 8px),
+    radial-gradient(circle at 30% 72%, #6B4226 6px, transparent 6px),
+    radial-gradient(circle at 82% 70%, #7A5C3A 5px, transparent 5px),
+    radial-gradient(circle at 50% 88%, #5A3820 7px, transparent 7px),
+    radial-gradient(circle at 15% 90%, #6B4226 5px, transparent 5px),
+    radial-gradient(circle at 92% 92%, #7A5C3A 6px, transparent 6px),
+    /* 奶茶杯輪廓（SVG data URI）*/
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg opacity='0.25'%3E%3Cellipse cx='60' cy='22' rx='22' ry='7' fill='none' stroke='%236B4226' stroke-width='2.5'/%3E%3Cpath d='M38 22 Q34 85 45 98 Q55 108 60 108 Q65 108 75 98 Q86 85 82 22Z' fill='none' stroke='%236B4226' stroke-width='2.5'/%3E%3Cellipse cx='60' cy='22' rx='18' ry='5' fill='%23C8A882' opacity='0.5'/%3E%3Ccircle cx='50' cy='80' r='4' fill='%235A3820'/%3E%3Ccircle cx='63' cy='88' r='4' fill='%235A3820'/%3E%3Ccircle cx='70' cy='76' r='3.5' fill='%235A3820'/%3E%3Cline x1='60' y1='5' x2='60' y2='22' stroke='%236B4226' stroke-width='2' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"),
+    /* 小葉片 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cellipse cx='40' cy='40' rx='12' ry='6' fill='%238BAF7C' opacity='0.25' transform='rotate(-30 40 40)'/%3E%3C/svg%3E");
+  background-size:
+    200px 200px, 200px 200px, 200px 200px, 200px 200px,
+    200px 200px, 200px 200px, 200px 200px, 200px 200px,
+    200px 200px, 200px 200px, 200px 200px,
+    120px 120px,
+    80px 80px;
+  background-position:
+    0 0, 100px 60px, 50px 120px, 160px 30px,
+    20px 160px, 130px 140px, 70px 80px, 170px 170px,
+    90px 40px, 40px 200px, 180px 100px,
+    0 0,
+    40px 40px;
+  min-height:100vh;
+}
 
-/* ── PHONE WRAPPER ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg opacity='0.25'%3E%3Crect x='72' y='5' width='5' height='55' rx='2.5' fill='%23E88080'/%3E%3Cpath d='M20 90 Q40 80 60 90 Q80 100 100 90 Q120 80 140 90' stroke='%23C8A882' stroke-width='3' fill='none'/%3E%3Cpath d='M20 100 Q40 90 60 100 Q80 110 100 100 Q120 90 140 100' stroke='%23DCC9A8' stroke-width='2' fill='none'/%3E%3Ccircle cx='55' cy='120' r='6' fill='%235A3820'/%3E%3Ccircle cx='75' cy='130' r='6' fill='%236B4226'/%3E%3Ccircle cx='95' cy='118' r='6' fill='%235A3820'/%3E%3Ccircle cx='65' cy='138' r='5' fill='%236B4226'/%3E%3Ccircle cx='85' cy='142' r='5' fill='%235A3820'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg opacity='0.25'%3E%3Ccircle cx='45' cy='45' r='12' fill='none' stroke='%23C8A882' stroke-width='2' stroke-dasharray='4 3'/%3E%3Ccircle cx='45' cy='45' r='5' fill='%23DCC9A8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:160px 160px, 90px 90px;
+  background-position:80px 20px, 0 50px;
+}
+
 #app{
   width:390px;height:844px;background:var(--cream);
-  border-radius:44px;overflow:hidden;position:relative;
+  border-radius:44px;overflow:hidden;position:relative;z-index:1;
   box-shadow:0 20px 60px rgba(90,62,40,0.35),inset 0 0 0 2px rgba(213,192,160,0.6);
   display:flex;flex-direction:column;
 }
-@media(max-height:860px){
-  #app{width:360px;height:calc(100vh - 16px);border-radius:36px;}
-}
-@media(max-width:400px){
-  #app{width:100vw;height:100vh;border-radius:0;}
-}
+@media(max-height:860px){#app{width:360px;height:calc(100vh - 16px);border-radius:36px;}}
+@media(max-width:400px){#app{width:100vw;height:100vh;border-radius:0;}}
 
-/* ── STATUS BAR ── */
 .status-bar{
   height:44px;background:rgba(253,246,238,0.95);
   display:flex;align-items:center;justify-content:space-between;
@@ -44,914 +81,432 @@ body{font-family:'Nunito','Noto Sans TC',sans-serif;display:flex;justify-content
   border-bottom:0.5px solid rgba(200,168,130,0.2);
 }
 .status-time{font-size:13px;font-weight:800;color:var(--text-dark);}
-.status-icons{font-size:12px;color:var(--text-mid);display:flex;gap:4px;align-items:center;}
+.status-icons{font-size:12px;color:var(--text-mid);display:flex;gap:4px;}
 
-/* ── SCREEN MANAGER ── */
-.screen{
-  flex:1;overflow:hidden;display:none;flex-direction:column;
-  animation:screenIn 0.3s ease;
-}
+.screen{flex:1;overflow:hidden;display:none;flex-direction:column;animation:screenIn 0.3s ease;}
 .screen.active{display:flex;}
 @keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── SCROLLABLE CONTENT ── */
 .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .scroll-area::-webkit-scrollbar{display:none;}
 
-/* ── BOTTOM NAV ── */
-.bottom-nav{
-  height:72px;background:rgba(253,246,238,0.97);
-  border-top:0.5px solid rgba(200,168,130,0.3);
-  display:flex;align-items:center;flex-shrink:0;
-  padding-bottom:8px;
-}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  gap:3px;cursor:pointer;padding:8px 0;
-  transition:transform 0.15s;
-}
-.nav-item:active{transform:scale(0.9);}
-.nav-icon{font-size:20px;line-height:1;}
-.nav-label{font-size:9px;font-weight:700;color:var(--text-light);letter-spacing:0.3px;}
-.nav-item.active .nav-label{color:var(--brown);}
-.nav-item.active .nav-icon{filter:drop-shadow(0 0 4px rgba(200,130,80,0.4));}
-
-/* ══════════════════════════════════
-   SCREEN 1: WELCOME / LOGIN
-══════════════════════════════════ */
-#screen-welcome{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 50%,#EDD5B5 100%);}
-.welcome-bg{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:32px 28px;gap:16px;
-}
-.welcome-logo{text-align:center;margin-bottom:8px;}
-.logo-bubble{
-  width:90px;height:90px;background:white;border-radius:30px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:44px;margin:0 auto 10px;
-  box-shadow:var(--shadow);
-  animation:logo-float 3s ease-in-out infinite;
-}
-@keyframes logo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.logo-title{font-size:30px;font-weight:900;color:var(--brown2);letter-spacing:-0.5px;}
-.logo-sub{font-size:12px;color:var(--text-light);margin-top:4px;letter-spacing:0.5px;}
-
-.welcome-card{
-  background:white;border-radius:24px;padding:20px;width:100%;
-  box-shadow:var(--shadow);border:1px solid rgba(200,168,130,0.2);
-}
-.card-title{font-size:15px;font-weight:800;color:var(--text-dark);margin-bottom:14px;}
-.input-group{display:flex;flex-direction:column;gap:10px;}
-.inp{
-  background:var(--soft-beige);border:1.5px solid #DCC9A8;
-  border-radius:14px;padding:12px 14px;font-size:14px;
-  color:var(--text-dark);font-family:'Nunito',sans-serif;
-  outline:none;transition:border-color 0.2s;width:100%;
-}
+/* COMMON */
+.inp{background:var(--soft-beige);border:1.5px solid #DCC9A8;border-radius:14px;padding:12px 14px;font-size:14px;color:var(--text-dark);font-family:'Nunito',sans-serif;outline:none;transition:border-color 0.2s;width:100%;}
 .inp:focus{border-color:var(--pearl);}
 .inp::placeholder{color:#C8A882;}
-
-.btn-primary{
-  background:linear-gradient(135deg,#D4856A,#C07060);
-  color:white;border:none;border-radius:16px;padding:13px;
-  font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;
-  cursor:pointer;width:100%;letter-spacing:0.3px;
-  transition:transform 0.15s,box-shadow 0.15s;
-  box-shadow:0 4px 12px rgba(192,112,96,0.35);
-}
+.btn-primary{background:linear-gradient(135deg,#D4856A,#C07060);color:white;border:none;border-radius:16px;padding:13px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;width:100%;box-shadow:0 4px 12px rgba(192,112,96,0.35);transition:transform 0.15s;}
 .btn-primary:active{transform:scale(0.97);}
-.btn-secondary{
-  background:white;color:var(--text-mid);
-  border:1.5px solid #DCC9A8;border-radius:16px;
-  padding:12px;font-size:13px;font-weight:700;
-  font-family:'Nunito',sans-serif;cursor:pointer;width:100%;
-  transition:background 0.15s;
-}
-.btn-secondary:active{background:var(--soft-beige);}
+.btn-secondary{background:white;color:var(--text-mid);border:1.5px solid #DCC9A8;border-radius:16px;padding:12px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;width:100%;}
 .divider{display:flex;align-items:center;gap:10px;color:var(--text-light);font-size:11px;}
 .divider::before,.divider::after{content:'';flex:1;height:0.5px;background:#DCC9A8;}
+.section-label{font-size:11px;font-weight:800;color:var(--text-mid);letter-spacing:0.8px;}
 
-/* ══════════════════════════════════
-   SCREEN 2: REGISTER
-══════════════════════════════════ */
+.toast{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--brown2);color:white;padding:10px 20px;border-radius:20px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap;z-index:300;}
+.toast.show{opacity:1;}
+.loading-overlay{position:absolute;inset:0;background:rgba(253,246,238,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:200;}
+.spinner{width:36px;height:36px;border:3px solid var(--milk2);border-top-color:var(--brown);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--text-mid);font-weight:700;}
+
+/* ══ SCREEN: WELCOME ══ */
+#screen-welcome{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 50%,#EDD5B5 100%);}
+.welcome-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;gap:16px;}
+.logo-bubble{width:90px;height:90px;background:white;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:44px;margin:0 auto 10px;box-shadow:var(--shadow);animation:logo-float 3s ease-in-out infinite;}
+@keyframes logo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.logo-title{font-size:30px;font-weight:900;color:var(--brown2);text-align:center;}
+.logo-sub{font-size:12px;color:var(--text-light);text-align:center;letter-spacing:0.5px;}
+.welcome-card{background:white;border-radius:24px;padding:20px;width:100%;box-shadow:var(--shadow);border:1px solid rgba(200,168,130,0.2);}
+.welcome-card .card-title{font-size:15px;font-weight:800;color:var(--text-dark);margin-bottom:14px;}
+.input-group{display:flex;flex-direction:column;gap:10px;}
+
+/* ══ SCREEN: REGISTER ══ */
 #screen-register{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 70%,#FADDDD 100%);}
 .reg-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
 .reg-scroll::-webkit-scrollbar{display:none;}
-.section-title{font-size:12px;font-weight:800;color:var(--text-mid);letter-spacing:0.8px;text-transform:uppercase;}
-
 .avatar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.avatar-cell{
-  background:white;border-radius:14px;border:2px solid transparent;
-  padding:8px 4px;text-align:center;cursor:pointer;
-  transition:all 0.2s;
-}
+.avatar-cell{background:white;border-radius:14px;border:2px solid transparent;padding:8px 4px;text-align:center;cursor:pointer;transition:all 0.2s;}
 .avatar-cell:active{transform:scale(0.93);}
 .avatar-cell.selected{border-color:var(--peach2);background:var(--soft-pink);}
 .av-emoji{font-size:24px;line-height:1;display:block;}
 .av-name{font-size:9px;color:var(--text-light);margin-top:3px;font-weight:700;}
 
-/* ══════════════════════════════════
-   SCREEN 3: HOME / RADAR
-══════════════════════════════════ */
-#screen-home{background:radial-gradient(ellipse at 50% 35%,#FDF0E0 0%,#F5E6D3 55%,#EDD5B5 100%);}
-.home-header{
-  background:rgba(253,246,238,0.95);padding:14px 20px 10px;
-  border-bottom:0.5px solid rgba(200,168,130,0.25);flex-shrink:0;
-}
-.home-header-row{display:flex;align-items:center;justify-content:space-between;}
-.home-logo{font-size:18px;font-weight:900;color:var(--brown2);}
-.user-pill{
-  display:flex;align-items:center;gap:7px;background:white;
-  border-radius:20px;padding:5px 10px 5px 5px;
-  border:1px solid rgba(200,168,130,0.3);
-}
-.user-pill .avatar{font-size:18px;}
-.user-pill .uname{font-size:12px;font-weight:700;color:var(--text-dark);}
+/* ══ SCREEN: HOME ══ */
+#screen-home{background:linear-gradient(160deg,#FDF0E0 0%,#F5E6D3 60%,#EDD5B5 100%);}
+.home-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;}
+.home-user-bar{display:flex;align-items:center;gap:10px;background:white;border-radius:20px;padding:10px 16px;width:100%;box-shadow:var(--shadow-sm);border:1px solid rgba(200,168,130,0.2);}
+.home-avatar{font-size:28px;}
+.home-user-info{flex:1;}
+.home-uname{font-size:15px;font-weight:800;color:var(--text-dark);}
+.home-usub{font-size:10px;color:var(--text-light);}
+.logout-btn{font-size:11px;color:var(--text-light);cursor:pointer;padding:4px 8px;border-radius:10px;border:1px solid #DCC9A8;background:var(--soft-beige);}
 
-.mode-toggle-row{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:10px;gap:10px;
-}
-.lift-timer-badge{
-  background:linear-gradient(135deg,#8BAF7C,#6A9460);
-  color:white;border-radius:12px;padding:5px 12px;
-  font-size:11px;font-weight:800;flex-shrink:0;
-}
-.lift-timer-badge.off{background:var(--soft-beige);color:var(--text-light);}
+/* 合照牆 */
+.photo-wall{width:100%;background:white;border-radius:20px;padding:14px;box-shadow:var(--shadow-sm);border:1px solid rgba(200,168,130,0.2);}
+.photo-wall-title{font-size:12px;font-weight:800;color:var(--text-mid);margin-bottom:10px;}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.photo-cell{aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--soft-beige);display:flex;align-items:center;justify-content:center;}
+.photo-cell img{width:100%;height:100%;object-fit:cover;}
+.photo-cell .empty-ph{font-size:20px;opacity:0.3;}
 
-/* RADAR */
-.radar-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0;}
-.radar-zone{
-  width:260px;height:260px;position:relative;
-  flex-shrink:0;
-}
-.r-ring{
-  position:absolute;border-radius:50%;
-  border:1px solid rgba(200,168,130,0.25);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-}
-.r-ripple{
-  position:absolute;border-radius:50%;
-  border:2px solid rgba(200,168,130,0.35);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  animation:ripple-out 3s ease-out infinite;
-}
-@keyframes ripple-out{
-  0%{opacity:0.7;transform:translate(-50%,-50%) scale(0.2);}
-  100%{opacity:0;transform:translate(-50%,-50%) scale(1);}
-}
-.r-center{
-  width:56px;height:56px;background:white;border-radius:50%;
-  border:3px solid var(--milk2);
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  display:flex;align-items:center;justify-content:center;
-  font-size:26px;z-index:5;box-shadow:var(--shadow);
-}
-.tea-spirit{
-  position:absolute;width:42px;height:42px;background:white;
-  border-radius:50%;border:2px solid #DCC9A8;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  cursor:pointer;transition:transform 0.2s;
-  box-shadow:var(--shadow-sm);z-index:4;
-}
-.tea-spirit:hover,.tea-spirit:active{transform:scale(1.15);}
-.sp-face{font-size:18px;line-height:1;}
-.sp-dot{width:7px;height:7px;border-radius:50%;background:var(--matcha);margin-top:2px;}
-.tea-spirit.matched .sp-dot{background:var(--peach2);animation:pulse-dot 1s infinite;}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
-
-/* TAG SELECTOR */
-.tag-section{padding:0 16px;}
-.tag-grid{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;}
-.tag-chip{
-  padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;
-  cursor:pointer;border:1.5px solid;transition:all 0.15s;
+/* 碰杯大按鈕 */
+.cheers-big-btn{
+  width:180px;height:180px;border-radius:50%;
+  background:linear-gradient(135deg,#D4856A,#C07060);
+  border:none;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 8px 32px rgba(192,112,96,0.4);
+  transition:transform 0.15s,box-shadow 0.15s;
   font-family:'Nunito',sans-serif;
 }
-.tag-chip:active{transform:scale(0.93);}
-.chip-full{background:var(--soft-pink);border-color:var(--peach2);color:#C0546A;}
-.chip-half{background:#FFF3E0;border-color:#F0C070;color:#B07820;}
-.chip-none{background:var(--soft-green);border-color:var(--matcha);color:var(--matcha2);}
-.chip-pearl{background:#EDE0F0;border-color:#C090D0;color:#8040A0;}
-.chip-taro{background:#E8E0F8;border-color:#A090E0;color:#604898;}
-.chip-jelly{background:#E0F4F8;border-color:#70C0D8;color:#286880;}
-.chip-hot{background:#FFEDE0;border-color:#F09060;color:#C05020;}
-.chip-less-ice{background:#E8F4FF;border-color:#80B8E8;color:#205880;}
-.tag-chip.selected{box-shadow:0 0 0 2px currentColor;}
+.cheers-big-btn:active{transform:scale(0.95);box-shadow:0 4px 16px rgba(192,112,96,0.3);}
+.cheers-big-btn.waiting{background:linear-gradient(135deg,#8BAF7C,#6A9460);box-shadow:0 8px 32px rgba(106,148,96,0.4);animation:pulse-btn 2s ease-in-out infinite;}
+@keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.cheers-big-btn .btn-icon{font-size:48px;line-height:1;}
+.cheers-big-btn .btn-label{font-size:14px;font-weight:900;color:white;letter-spacing:0.5px;}
+.cheers-big-btn .btn-sub{font-size:10px;color:rgba(255,255,255,0.8);}
 
-.lift-btn-big{
-  margin:14px 16px 8px;
-  background:linear-gradient(135deg,#D4856A,#C07060);
-  color:white;border:none;border-radius:18px;padding:14px;
-  font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;
-  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
-  box-shadow:0 4px 16px rgba(192,112,96,0.3);
-  width:calc(100% - 32px);
-}
-.lift-btn-big:active{transform:scale(0.97);}
-.lift-btn-big.stop{background:linear-gradient(135deg,#C8A882,#B09070);}
+.waiting-info{background:white;border-radius:16px;padding:12px 16px;text-align:center;border:1.5px solid rgba(139,175,124,0.4);width:100%;}
+.waiting-timer{font-size:22px;font-weight:900;color:var(--matcha2);}
+.waiting-sub{font-size:11px;color:var(--text-light);margin-top:4px;}
 
-/* ══════════════════════════════════
-   SCREEN 4: MATCH / CHEERS
-══════════════════════════════════ */
-#screen-match{
-  background:radial-gradient(ellipse at 50% 30%,#FFF0E8 0%,#FDDCC8 60%,#F5C8A8 100%);
-}
-.match-wrap{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:20px;position:relative;overflow:hidden;
-}
-.confetti-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-.confetti-piece{
-  position:absolute;border-radius:50%;
-  animation:fall-down 4s linear infinite;
-}
-@keyframes fall-down{
-  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
-  100%{transform:translateY(900px) rotate(720deg);opacity:0;}
-}
+/* ══ SCREEN: PICK SHOPS ══ */
+#screen-pick{background:var(--soft-beige);}
+.pick-header{background:white;border-bottom:0.5px solid rgba(200,168,130,0.25);padding:14px 16px;flex-shrink:0;}
+.pick-header h2{font-size:16px;font-weight:900;color:var(--brown2);}
+.pick-header p{font-size:11px;color:var(--text-light);margin-top:3px;}
+.pick-countdown{font-size:13px;font-weight:800;color:var(--peach2);}
 
-.match-title-badge{
-  background:white;border-radius:24px;padding:8px 20px;
-  font-size:13px;font-weight:800;color:var(--brown);
-  border:2px solid var(--milk2);margin-bottom:16px;
-  box-shadow:var(--shadow-sm);
-}
-.cheers-animation{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px;}
-.cup-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.cup-big{font-size:52px;animation:cup-clink 1.4s ease-in-out infinite alternate;}
-.cup-big.right{animation-direction:alternate-reverse;}
-@keyframes cup-clink{
-  0%{transform:rotate(-14deg) translateY(0);}
-  100%{transform:rotate(14deg) translateY(-6px);}
-}
-.cup-name{font-size:11px;color:var(--text-mid);font-weight:700;}
-.clink-spark{font-size:28px;padding-bottom:10px;animation:spark 0.9s ease-in-out infinite alternate;}
-@keyframes spark{0%{transform:scale(0.7);opacity:0.5;}100%{transform:scale(1.3);opacity:1;}}
+.shop-list{padding:12px;display:flex;flex-direction:column;gap:10px;}
+.shop-card{background:white;border-radius:16px;border:2px solid transparent;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm);}
+.shop-card:active{transform:scale(0.98);}
+.shop-card.selected{border-color:var(--matcha);background:rgba(139,175,124,0.05);}
+.shop-card.selected .shop-check{background:var(--matcha);color:white;}
+.shop-rank{width:28px;height:28px;border-radius:50%;background:var(--soft-beige);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--text-mid);flex-shrink:0;}
+.shop-info{flex:1;}
+.shop-name{font-size:13px;font-weight:800;color:var(--text-dark);}
+.shop-addr{font-size:10px;color:var(--text-light);margin-top:3px;line-height:1.4;}
+.shop-rating{font-size:10px;color:var(--gold);margin-top:4px;font-weight:700;}
+.shop-check{width:24px;height:24px;border-radius:50%;background:var(--soft-beige);border:2px solid #DCC9A8;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all 0.2s;}
+.pick-footer{padding:12px 16px;background:white;border-top:0.5px solid rgba(200,168,130,0.25);flex-shrink:0;}
+.pick-status{font-size:11px;color:var(--text-light);text-align:center;margin-bottom:8px;}
 
-.slogan-card{
-  background:white;border-radius:20px;padding:14px 18px;
-  text-align:center;border:1.5px solid #DCC9A8;
-  margin-bottom:16px;max-width:280px;box-shadow:var(--shadow-sm);
-}
-.slogan-icon{font-size:24px;margin-bottom:6px;}
-.slogan-main{font-size:15px;font-weight:800;color:var(--brown);}
-.slogan-desc{font-size:11px;color:var(--text-light);margin-top:5px;line-height:1.5;}
+/* ══ SCREEN: WAITING RESULT ══ */
+#screen-waiting-result{background:linear-gradient(160deg,#FDF0E0,#F5E6D3);}
+.wr-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:16px;}
+.wr-icon{font-size:60px;animation:logo-float 2s ease-in-out infinite;}
+.wr-title{font-size:18px;font-weight:900;color:var(--brown2);text-align:center;}
+.wr-sub{font-size:12px;color:var(--text-light);text-align:center;line-height:1.6;}
+.wr-timer{font-size:28px;font-weight:900;color:var(--matcha2);}
 
-.peer-cards{display:flex;gap:10px;margin-bottom:18px;}
-.peer-card{
-  background:white;border-radius:16px;padding:12px;
-  border:1.5px solid #DCC9A8;text-align:center;
-  min-width:110px;box-shadow:var(--shadow-sm);
-}
-.peer-card .pc-avatar{font-size:28px;display:block;margin-bottom:4px;}
-.peer-card .pc-name{font-size:12px;font-weight:800;color:var(--text-dark);}
-.peer-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
-.peer-tag{
-  font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;
-  background:var(--soft-pink);color:#C0546A;
-}
-.peer-tag.g{background:var(--soft-green);color:var(--matcha2);}
-.peer-tag.b{background:#FFF3E0;color:#B07820;}
-.peer-tag.p{background:#EDE0F0;color:#8040A0;}
-
-.match-action-row{display:flex;gap:10px;width:100%;}
-.btn-cheers{
-  flex:2;background:linear-gradient(135deg,#D4856A,#C07060);
-  color:white;border:none;border-radius:16px;padding:13px;
-  font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;
-  box-shadow:0 4px 12px rgba(192,112,96,0.3);transition:transform 0.15s;
-}
-.btn-cheers:active{transform:scale(0.96);}
-.btn-pass{
-  flex:1;background:white;color:var(--text-mid);
-  border:1.5px solid #DCC9A8;border-radius:16px;padding:13px;
-  font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;
-}
-.hint-text{font-size:10px;color:#C8A882;text-align:center;margin-top:10px;}
-
-/* ══════════════════════════════════
-   SCREEN 5: CHAT
-══════════════════════════════════ */
+/* ══ SCREEN: CHAT ══ */
 #screen-chat{background:var(--soft-beige);}
-.chat-header{
-  background:white;border-bottom:1px solid rgba(200,168,130,0.25);
-  padding:12px 16px;display:flex;align-items:center;gap:10px;
-  flex-shrink:0;
-}
-.back-btn{
-  width:32px;height:32px;border-radius:50%;background:var(--soft-beige);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;cursor:pointer;color:var(--text-mid);flex-shrink:0;
-  border:none;font-family:'Nunito',sans-serif;
-}
-.peer-avatar-lg{font-size:26px;flex-shrink:0;}
-.peer-details{flex:1;}
-.peer-dname{font-size:14px;font-weight:800;color:var(--text-dark);}
-.peer-dtags{font-size:10px;color:var(--text-light);}
-.timer-chip{
-  background:var(--soft-pink);border-radius:12px;
-  padding:5px 10px;text-align:center;flex-shrink:0;
-}
-.timer-num{font-size:15px;font-weight:900;color:#C0546A;display:block;font-variant-numeric:tabular-nums;}
-.timer-lbl{font-size:8px;color:#E08080;font-weight:700;}
+.chat-header{background:white;border-bottom:1px solid rgba(200,168,130,0.25);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.chat-peer-avatar{font-size:26px;flex-shrink:0;}
+.chat-peer-info{flex:1;}
+.chat-peer-name{font-size:14px;font-weight:800;color:var(--text-dark);}
+.chat-peer-sub{font-size:10px;color:var(--text-light);}
+.chat-timer-chip{background:var(--soft-pink);border-radius:12px;padding:5px 10px;text-align:center;flex-shrink:0;}
+.chat-timer-num{font-size:15px;font-weight:900;color:#C0546A;display:block;font-variant-numeric:tabular-nums;}
+.chat-timer-lbl{font-size:8px;color:#E08080;font-weight:700;}
 
-.chat-messages{
-  flex:1;padding:12px;display:flex;flex-direction:column;
-  gap:8px;overflow-y:auto;
-}
+/* 配對商店卡 */
+.match-shops-banner{background:linear-gradient(135deg,#F5E6D3,#FADDDD);border-bottom:1px solid rgba(200,168,130,0.2);padding:12px 16px;flex-shrink:0;}
+.msb-title{font-size:11px;font-weight:800;color:var(--brown);margin-bottom:8px;}
+.msb-shops{display:flex;gap:8px;}
+.msb-shop{background:white;border-radius:12px;padding:8px 10px;flex:1;border:1px solid rgba(200,168,130,0.3);}
+.msb-shop-name{font-size:11px;font-weight:800;color:var(--text-dark);}
+.msb-shop-addr{font-size:9px;color:var(--text-light);margin-top:2px;line-height:1.3;}
+
+.chat-messages{flex:1;padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;}
 .chat-messages::-webkit-scrollbar{display:none;}
-.msg-system{
-  text-align:center;font-size:10px;color:var(--text-light);
-  background:rgba(255,255,255,0.7);padding:4px 12px;
-  border-radius:12px;align-self:center;font-weight:600;
-}
-.msg-bubble{
-  max-width:72%;padding:9px 13px;border-radius:18px;
-  font-size:13px;line-height:1.5;font-weight:600;
-}
-.msg-them{
-  background:white;border:1px solid rgba(200,168,130,0.3);
-  color:var(--text-dark);align-self:flex-start;
-  border-bottom-left-radius:5px;
-}
-.msg-me{
-  background:linear-gradient(135deg,#E8A87C,#D48570);
-  color:white;align-self:flex-end;border-bottom-right-radius:5px;
-}
-.msg-time{font-size:9px;color:var(--text-light);margin-top:2px;}
-.msg-time.right{text-align:right;}
+.msg-system{text-align:center;font-size:10px;color:var(--text-light);background:rgba(255,255,255,0.7);padding:4px 12px;border-radius:12px;align-self:center;font-weight:600;}
+.msg-bubble{max-width:72%;padding:9px 13px;border-radius:18px;font-size:13px;line-height:1.5;font-weight:600;}
+.msg-them{background:white;border:1px solid rgba(200,168,130,0.3);color:var(--text-dark);align-self:flex-start;border-bottom-left-radius:5px;}
+.msg-me{background:linear-gradient(135deg,#E8A87C,#D48570);color:white;align-self:flex-end;border-bottom-right-radius:5px;}
+.msg-meta{font-size:9px;color:var(--text-light);}
+.msg-meta.right{text-align:right;}
 
-.chat-input-bar{
-  background:white;border-top:0.5px solid rgba(200,168,130,0.3);
-  padding:10px 12px;display:flex;gap:8px;align-items:center;
-  flex-shrink:0;
-}
-.chat-inp{
-  flex:1;background:var(--soft-beige);border:1.5px solid #DCC9A8;
-  border-radius:22px;padding:8px 16px;font-size:13px;
-  color:var(--text-dark);font-family:'Nunito',sans-serif;outline:none;
-}
+.chat-input-bar{background:white;border-top:0.5px solid rgba(200,168,130,0.3);padding:10px 12px;display:flex;gap:8px;align-items:center;flex-shrink:0;}
+.chat-inp{flex:1;background:var(--soft-beige);border:1.5px solid #DCC9A8;border-radius:22px;padding:8px 16px;font-size:13px;color:var(--text-dark);font-family:'Nunito',sans-serif;outline:none;}
 .chat-inp:focus{border-color:var(--pearl);}
-.send-btn{
-  width:36px;height:36px;background:var(--matcha);border-radius:50%;
-  border:none;font-size:16px;cursor:pointer;color:white;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:transform 0.15s;
-}
+.send-btn{width:36px;height:36px;background:var(--matcha);border-radius:50%;border:none;font-size:16px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.15s;}
 .send-btn:active{transform:scale(0.9);}
 
-/* chat expired overlay */
-.chat-expired{
-  position:absolute;inset:0;background:rgba(253,240,224,0.95);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;padding:32px;
-}
-.expired-icon{font-size:48px;}
-.expired-title{font-size:18px;font-weight:900;color:var(--brown);}
-.expired-sub{font-size:12px;color:var(--text-light);text-align:center;line-height:1.6;}
+/* ══ SCREEN: PHOTO ══ */
+#screen-photo{background:linear-gradient(160deg,#FDF0E0,#F5E6D3);}
+.photo-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;gap:16px;}
+.photo-timer-bar{background:var(--soft-pink);border-radius:12px;padding:8px 16px;text-align:center;}
+.photo-timer-num{font-size:20px;font-weight:900;color:#C0546A;}
+.photo-timer-lbl{font-size:10px;color:#E08080;}
+.photo-upload-area{width:240px;height:240px;border-radius:24px;border:3px dashed #DCC9A8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;background:white;overflow:hidden;position:relative;}
+.photo-upload-area img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.photo-upload-area .upload-hint{font-size:13px;color:var(--text-light);text-align:center;line-height:1.5;}
+.photo-upload-area .upload-icon{font-size:40px;}
+#photo-file-input{display:none;}
+.photo-skip{font-size:12px;color:var(--text-light);cursor:pointer;text-decoration:underline;}
 
-/* ══════════════════════════════════
-   SCREEN 6: HISTORY
-══════════════════════════════════ */
-#screen-history{background:var(--soft-beige);}
-.history-header{
-  background:white;border-bottom:0.5px solid rgba(200,168,130,0.25);
-  padding:16px 20px;flex-shrink:0;
-}
-.history-header h2{font-size:18px;font-weight:900;color:var(--brown2);}
-.history-header p{font-size:11px;color:var(--text-light);margin-top:2px;}
-.history-list{padding:12px;display:flex;flex-direction:column;gap:10px;}
-.flavor-card{
-  background:white;border-radius:18px;
-  border:1.5px solid rgba(200,168,130,0.3);
-  padding:14px;display:flex;gap:12px;align-items:center;
-  box-shadow:var(--shadow-sm);cursor:pointer;
-  transition:transform 0.15s;
-}
-.flavor-card:active{transform:scale(0.98);}
-.fc-avatar{font-size:32px;flex-shrink:0;}
-.fc-info{flex:1;}
-.fc-name{font-size:14px;font-weight:800;color:var(--text-dark);}
-.fc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
-.fc-tag{
-  font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;
-}
-.fc-quote{font-size:10px;color:var(--text-mid);margin-top:5px;font-style:italic;line-height:1.4;}
-.fc-meta{text-align:right;flex-shrink:0;}
-.fc-date{font-size:9px;color:var(--text-light);line-height:1.5;}
-.fc-heart{font-size:14px;}
-
-.empty-state{
-  display:flex;flex-direction:column;align-items:center;
-  padding:60px 32px;gap:12px;
-}
-.empty-icon{font-size:48px;opacity:0.5;}
-.empty-text{font-size:13px;color:var(--text-light);text-align:center;line-height:1.6;}
-
-/* ══════════════════════════════════
-   LOADING / TOAST
-══════════════════════════════════ */
-.loading-overlay{
-  position:absolute;inset:0;background:rgba(253,246,238,0.9);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;z-index:200;
-}
-.spinner{
-  width:36px;height:36px;border:3px solid var(--milk2);
-  border-top-color:var(--brown);border-radius:50%;
-  animation:spin 0.8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:13px;color:var(--text-mid);font-weight:700;}
-
-.toast{
-  position:absolute;bottom:90px;left:50%;transform:translateX(-50%);
-  background:var(--brown2);color:white;padding:10px 20px;
-  border-radius:20px;font-size:12px;font-weight:700;
-  opacity:0;pointer-events:none;transition:opacity 0.3s;
-  white-space:nowrap;z-index:300;
-}
-.toast.show{opacity:1;}
-
-/* ── CONFIG BANNER ── */
-.config-banner{
-  background:linear-gradient(135deg,#F5E6D3,#FADDDD);
-  border:1.5px solid #DCC9A8;border-radius:16px;
-  padding:14px 16px;margin:0 16px 8px;
-  font-size:11px;color:var(--text-mid);line-height:1.6;
-}
-.config-banner strong{color:var(--brown);display:block;font-size:12px;margin-bottom:4px;}
-.config-banner code{
-  background:rgba(200,168,130,0.25);padding:2px 6px;
-  border-radius:6px;font-size:10px;color:var(--brown2);
-}
-
-/* ── NO MATCH FOUND ── */
-.no-match-card{
-  background:white;border-radius:20px;padding:24px;
-  margin:20px 16px;text-align:center;
-  border:1.5px solid rgba(200,168,130,0.3);
-  box-shadow:var(--shadow-sm);
-}
-.no-match-icon{font-size:40px;margin-bottom:10px;}
-.no-match-title{font-size:15px;font-weight:800;color:var(--text-dark);}
-.no-match-sub{font-size:11px;color:var(--text-light);margin-top:6px;line-height:1.5;}
+/* FAIL SCREEN */
+#screen-fail{background:linear-gradient(160deg,#FDF0E0,#FADDDD);}
+.fail-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:16px;}
+.fail-icon{font-size:60px;}
+.fail-title{font-size:20px;font-weight:900;color:var(--brown2);}
+.fail-sub{font-size:12px;color:var(--text-light);text-align:center;line-height:1.6;}
 </style>
 </head>
 <body>
-
 <div id="app">
   <div class="status-bar">
     <span class="status-time" id="clock">9:41</span>
-    <div class="status-icons"><span>🧋</span><span id="conn-dot">●●●</span></div>
+    <div class="status-icons"><span>🧋</span><span>●●●</span></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="loading-overlay" id="loading" style="display:none;">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">載入中…</div>
   </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
-
-  <!-- ────────────────────────────────
-       SCREEN: WELCOME (LOGIN)
-  ──────────────────────────────────── -->
+  <!-- ── 1. 登入 ── -->
   <div class="screen active" id="screen-welcome">
-    <div class="welcome-bg">
-      <div class="welcome-logo">
+    <div class="welcome-wrap">
+      <div>
         <div class="logo-bubble">🧋</div>
         <div class="logo-title">碰杯</div>
-        <div class="logo-sub">Taste Adventure · 找到你的味覺靈魂伴侶</div>
+        <div class="logo-sub">Taste Adventure · 找到你的飲料同好</div>
       </div>
-
       <div class="welcome-card">
         <div class="card-title">👋 歡迎回來</div>
         <div class="input-group">
-          <input class="inp" id="login-name" type="text" placeholder="你的暱稱 🌿" autocomplete="off"/>
+          <input class="inp" id="login-name" placeholder="暱稱 🌿" autocomplete="off"/>
           <input class="inp" id="login-pass" type="password" placeholder="密碼 🔒"/>
-          <button class="btn-primary" onclick="doLogin()">喝一杯再說 →</button>
+          <button class="btn-primary" onclick="doLogin()">進入碰杯世界 →</button>
         </div>
         <div class="divider" style="margin:12px 0;">或</div>
         <button class="btn-secondary" onclick="goScreen('register')">✨ 第一次來？加入我們</button>
       </div>
-
-      <!-- Demo mode note -->
-      <div style="font-size:10px;color:var(--text-light);text-align:center;padding:8px 16px;line-height:1.6;">
-        💡 尚未設定 Supabase？<br/>可直接點「喝一杯再說」體驗展示模式
-      </div>
     </div>
   </div>
 
-  <!-- ────────────────────────────────
-       SCREEN: REGISTER
-  ──────────────────────────────────── -->
+  <!-- ── 2. 註冊 ── -->
   <div class="screen" id="screen-register">
     <div class="reg-scroll">
       <div style="text-align:center;margin-bottom:4px;">
-        <div style="font-size:24px;font-weight:900;color:var(--brown2);">建立你的茶靈檔案</div>
+        <div style="font-size:22px;font-weight:900;color:var(--brown2);">建立你的茶靈檔案</div>
         <div style="font-size:11px;color:var(--text-light);margin-top:4px;">Choose your bubble tea spirit</div>
       </div>
-
-      <div class="section-title">選擇人偶角色</div>
-      <div class="avatar-grid" id="avatar-grid">
-        <!-- 8 avatars injected by JS -->
-      </div>
-
-      <div class="section-title">基本資料</div>
+      <div class="section-label">選擇人偶角色</div>
+      <div class="avatar-grid" id="avatar-grid"></div>
+      <div class="section-label">基本資料</div>
       <div class="input-group">
-        <input class="inp" id="reg-name" placeholder="暱稱（其他人會看到）🌿" autocomplete="off"/>
-        <input class="inp" id="reg-phone" type="tel" placeholder="手機號碼 📱（僅做紀錄）"/>
+        <input class="inp" id="reg-name" placeholder="暱稱（其他人看到）🌿" autocomplete="off"/>
+        <input class="inp" id="reg-phone" type="tel" placeholder="手機號碼 📱（僅紀錄）"/>
         <input class="inp" id="reg-pass" type="password" placeholder="設定密碼 🔒"/>
         <input class="inp" id="reg-pass2" type="password" placeholder="再輸入一次密碼 🔒"/>
+        <button class="btn-primary" onclick="doRegister()">開始我的味覺冒險 🧋</button>
+        <button class="btn-secondary" onclick="goScreen('welcome')">← 返回登入</button>
       </div>
-
-      <button class="btn-primary" onclick="doRegister()">開始我的味覺冒險 🧋</button>
-      <button class="btn-secondary" onclick="goScreen('welcome')" style="margin-top:4px;">← 返回登入</button>
     </div>
   </div>
 
-  <!-- ────────────────────────────────
-       SCREEN: HOME (RADAR)
-  ──────────────────────────────────── -->
+  <!-- ── 3. 首頁 ── -->
   <div class="screen" id="screen-home">
-    <div class="home-header">
-      <div class="home-header-row">
-        <div class="home-logo">🧋 碰杯</div>
-        <div class="user-pill">
-          <span class="avatar" id="header-avatar">🧋</span>
-          <span class="uname" id="header-name">我</span>
+    <div class="home-wrap">
+      <!-- 用戶資訊 -->
+      <div class="home-user-bar">
+        <div class="home-avatar" id="home-avatar">🧋</div>
+        <div class="home-user-info">
+          <div class="home-uname" id="home-uname">茶靈</div>
+          <div class="home-usub">準備好碰杯了嗎？</div>
         </div>
+        <div class="logout-btn" onclick="doLogout()">登出</div>
       </div>
-      <div class="mode-toggle-row">
-        <div style="font-size:11px;color:var(--text-light);">附近茶靈雷達</div>
-        <div class="lift-timer-badge off" id="lift-badge">舉杯模式關閉</div>
-      </div>
-    </div>
 
-    <div class="scroll-area">
-      <!-- Radar -->
-      <div class="radar-wrap">
-        <div class="radar-zone" id="radar-zone">
-          <div class="r-ring" style="width:240px;height:240px;"></div>
-          <div class="r-ring" style="width:180px;height:180px;"></div>
-          <div class="r-ring" style="width:120px;height:120px;"></div>
-          <div class="r-ripple" style="width:250px;height:250px;animation-delay:0s;"></div>
-          <div class="r-ripple" style="width:200px;height:200px;animation-delay:0.8s;"></div>
-          <div class="r-ripple" style="width:148px;height:148px;animation-delay:1.6s;"></div>
-          <div class="r-center">🧋</div>
-          <!-- spirits injected by JS -->
-        </div>
-        <div style="font-size:10px;color:var(--text-light);margin-top:6px;">
-          粉點 = 同標籤茶靈，點擊可發送乾杯
+      <!-- 合照牆 -->
+      <div class="photo-wall">
+        <div class="photo-wall-title">📸 碰杯合照牆</div>
+        <div class="photo-grid" id="photo-grid">
+          <div class="photo-cell"><div class="empty-ph">📷</div></div>
+          <div class="photo-cell"><div class="empty-ph">📷</div></div>
+          <div class="photo-cell"><div class="empty-ph">📷</div></div>
         </div>
       </div>
 
-      <!-- Tag selector -->
-      <div class="tag-section">
-        <div class="section-title" style="font-size:11px;">我的飲料偏好標籤（可多選）</div>
-        <div class="tag-grid" id="tag-grid">
-          <div class="tag-chip chip-full" data-tag="全糖" onclick="toggleTag(this)">🍬 全糖</div>
-          <div class="tag-chip chip-half" data-tag="半糖" onclick="toggleTag(this)">🥛 半糖</div>
-          <div class="tag-chip chip-none" data-tag="無糖" onclick="toggleTag(this)">🌿 無糖</div>
-          <div class="tag-chip chip-pearl" data-tag="加珍珠" onclick="toggleTag(this)">🖤 加珍珠</div>
-          <div class="tag-chip chip-taro" data-tag="芋頭" onclick="toggleTag(this)">💜 芋頭</div>
-          <div class="tag-chip chip-jelly" data-tag="椰果" onclick="toggleTag(this)">🫙 椰果</div>
-          <div class="tag-chip chip-hot" data-tag="熱的" onclick="toggleTag(this)">🔥 熱的</div>
-          <div class="tag-chip chip-less-ice" data-tag="少冰" onclick="toggleTag(this)">🧊 少冰</div>
-        </div>
-      </div>
-
-      <button class="lift-btn-big" id="lift-btn" onclick="toggleLiftMode()">
-        🧋 啟動舉杯模式
+      <!-- 碰杯按鈕 -->
+      <button class="cheers-big-btn" id="cheers-btn" onclick="onCheersBtn()">
+        <span class="btn-icon">🥂</span>
+        <span class="btn-label">碰杯！</span>
+        <span class="btn-sub">點我開始配對</span>
       </button>
 
-      <div style="height:8px;"></div>
-    </div>
-
-    <div class="bottom-nav">
-      <div class="nav-item active" onclick="goScreen('home')">
-        <span class="nav-icon">📡</span><span class="nav-label">探索</span>
-      </div>
-      <div class="nav-item" onclick="goScreen('match')">
-        <span class="nav-icon">🥂</span><span class="nav-label">配對</span>
-      </div>
-      <div class="nav-item" onclick="goScreen('chat')">
-        <span class="nav-icon">💬</span><span class="nav-label">聊天</span>
-      </div>
-      <div class="nav-item" onclick="goScreen('history')">
-        <span class="nav-icon">📖</span><span class="nav-label">圖鑑</span>
+      <!-- 等待狀態（預設隱藏）-->
+      <div class="waiting-info" id="waiting-info" style="display:none;">
+        <div class="waiting-timer" id="waiting-timer">59:59</div>
+        <div class="waiting-sub">等待另一位茶靈按下碰杯…</div>
       </div>
     </div>
   </div>
 
-  <!-- ────────────────────────────────
-       SCREEN: MATCH
-  ──────────────────────────────────── -->
-  <div class="screen" id="screen-match">
-    <div class="match-wrap" id="match-wrap">
-      <!-- confetti -->
-      <div class="confetti-layer" id="confetti-layer"></div>
-
-      <div class="match-title-badge">✨ 味覺共鳴！配對成功</div>
-
-      <div class="cheers-animation">
-        <div class="cup-wrap">
-          <div class="cup-big" id="my-cup">🧋</div>
-          <div class="cup-name" id="my-cup-name">我</div>
-        </div>
-        <div class="clink-spark">✨</div>
-        <div class="cup-wrap">
-          <div class="cup-big right" id="peer-cup">🍵</div>
-          <div class="cup-name" id="peer-cup-name">對方</div>
-        </div>
-      </div>
-
-      <div class="slogan-card">
-        <div class="slogan-icon" id="slogan-icon">🐜</div>
-        <div class="slogan-main" id="slogan-main">恭喜！螞蟻同好 +1</div>
-        <div class="slogan-desc" id="slogan-desc">你們都愛全糖，甜蜜指數爆表！</div>
-      </div>
-
-      <div class="peer-cards">
-        <div class="peer-card">
-          <span class="pc-avatar" id="match-my-avatar">🧋</span>
-          <div class="pc-name" id="match-my-name">我</div>
-          <div class="peer-tags" id="match-my-tags"></div>
-        </div>
-        <div class="peer-card">
-          <span class="pc-avatar" id="match-peer-avatar">🍵</span>
-          <div class="pc-name" id="match-peer-name">對方</div>
-          <div class="peer-tags" id="match-peer-tags"></div>
-        </div>
-      </div>
-
-      <div class="match-action-row">
-        <button class="btn-cheers" onclick="sendCheersRequest()">🥂 發送乾杯請求</button>
-        <button class="btn-pass" onclick="goScreen('home')">略過</button>
-      </div>
-      <div class="hint-text">雙方同意後解鎖 5 分鐘限時聊天室</div>
-    </div>
-
-    <!-- no match state -->
-    <div id="no-match-state" style="display:none;flex:1;flex-direction:column;">
-      <div class="no-match-card">
-        <div class="no-match-icon">🫧</div>
-        <div class="no-match-title">目前沒有同標籤的茶靈</div>
-        <div class="no-match-sub">先啟動舉杯模式，靜候同好出現<br/>說不定下一秒就碰杯了 ☕</div>
-      </div>
-      <button class="btn-primary" style="margin:0 20px;" onclick="goScreen('home')">去啟動舉杯模式 →</button>
-    </div>
-
-    <div class="bottom-nav">
-      <div class="nav-item" onclick="goScreen('home')"><span class="nav-icon">📡</span><span class="nav-label">探索</span></div>
-      <div class="nav-item active"><span class="nav-icon">🥂</span><span class="nav-label">配對</span></div>
-      <div class="nav-item" onclick="goScreen('chat')"><span class="nav-icon">💬</span><span class="nav-label">聊天</span></div>
-      <div class="nav-item" onclick="goScreen('history')"><span class="nav-icon">📖</span><span class="nav-label">圖鑑</span></div>
-    </div>
-  </div>
-
-  <!-- ────────────────────────────────
-       SCREEN: CHAT
-  ──────────────────────────────────── -->
-  <div class="screen" id="screen-chat">
-    <div class="chat-header">
-      <button class="back-btn" onclick="goScreen('home')">‹</button>
-      <div class="peer-avatar-lg" id="chat-peer-avatar">👧</div>
-      <div class="peer-details">
-        <div class="peer-dname" id="chat-peer-name">茶靈</div>
-        <div class="peer-dtags" id="chat-peer-tags">全糖・加珍珠</div>
-      </div>
-      <div class="timer-chip">
-        <span class="timer-num" id="chat-timer-display">5:00</span>
-        <div class="timer-lbl">限時聊天</div>
-      </div>
-    </div>
-
-    <div class="chat-messages" id="chat-messages">
-      <div class="msg-system">🥂 乾杯請求已接受！限時聊天室開啟</div>
-    </div>
-
-    <div class="chat-input-bar">
-      <input class="chat-inp" id="chat-input" placeholder="說點甜甜的話…" autocomplete="off"
-        onkeydown="if(event.key==='Enter')sendMessage()"/>
-      <button class="send-btn" onclick="sendMessage()">➤</button>
-    </div>
-
-    <!-- expired overlay (hidden by default) -->
-    <div class="chat-expired" id="chat-expired" style="display:none;">
-      <div class="expired-icon">⏰</div>
-      <div class="expired-title">聊天室已關閉</div>
-      <div class="expired-sub">5 分鐘限時已到期<br/>對方的味覺卡片已存入你的緣分圖鑑✨</div>
-      <button class="btn-primary" style="width:200px;" onclick="goScreen('history')">查看緣分圖鑑 →</button>
-      <button class="btn-secondary" style="width:200px;" onclick="goScreen('home')">繼續探索</button>
-    </div>
-  </div>
-
-  <!-- ────────────────────────────────
-       SCREEN: HISTORY
-  ──────────────────────────────────── -->
-  <div class="screen" id="screen-history">
-    <div class="history-header">
-      <h2>📖 緣分圖鑑</h2>
-      <p id="history-subtitle">每一張都是獨一無二的味覺回憶</p>
+  <!-- ── 4. 選飲料店 ── -->
+  <div class="screen" id="screen-pick">
+    <div class="pick-header">
+      <h2>🗺️ 選兩家你想去的飲料店</h2>
+      <p>系統找到你們中間的 4 家店，各選 2 家 <span class="pick-countdown" id="pick-countdown"></span></p>
     </div>
     <div class="scroll-area">
-      <div class="history-list" id="history-list">
-        <!-- injected by JS -->
-      </div>
+      <div class="shop-list" id="shop-list"></div>
     </div>
-    <div class="bottom-nav">
-      <div class="nav-item" onclick="goScreen('home')"><span class="nav-icon">📡</span><span class="nav-label">探索</span></div>
-      <div class="nav-item" onclick="goScreen('match')"><span class="nav-icon">🥂</span><span class="nav-label">配對</span></div>
-      <div class="nav-item" onclick="goScreen('chat')"><span class="nav-icon">💬</span><span class="nav-label">聊天</span></div>
-      <div class="nav-item active"><span class="nav-icon">📖</span><span class="nav-label">圖鑑</span></div>
+    <div class="pick-footer">
+      <div class="pick-status" id="pick-status">請選擇 2 家店</div>
+      <button class="btn-primary" id="pick-confirm-btn" onclick="confirmPick()" disabled style="opacity:0.5;">確認選擇</button>
     </div>
   </div>
 
-  <!-- LOADING OVERLAY -->
-  <div class="loading-overlay" id="loading" style="display:none;">
-    <div class="spinner"></div>
-    <div class="loading-text" id="loading-text">茶靈連線中…</div>
+  <!-- ── 5. 等待對方選擇 ── -->
+  <div class="screen" id="screen-waiting-result">
+    <div class="wr-wrap">
+      <div class="wr-icon">⏳</div>
+      <div class="wr-title">等待對方選擇中…</div>
+      <div class="wr-sub">對方也在選飲料店<br/>看看你們的品味合不合 ☕</div>
+      <div class="wr-timer" id="wr-timer">--:--</div>
+    </div>
+  </div>
+
+  <!-- ── 6. 聊天室 ── -->
+  <div class="screen" id="screen-chat">
+    <div class="chat-header">
+      <div class="chat-peer-avatar" id="chat-peer-avatar">🧋</div>
+      <div class="chat-peer-info">
+        <div class="chat-peer-name" id="chat-peer-name">茶靈</div>
+        <div class="chat-peer-sub" id="chat-peer-sub">碰杯成功！</div>
+      </div>
+      <div class="chat-timer-chip">
+        <span class="chat-timer-num" id="chat-timer-num">60:00</span>
+        <div class="chat-timer-lbl">限時聊天</div>
+      </div>
+    </div>
+    <!-- 共同選擇的店 -->
+    <div class="match-shops-banner" id="match-shops-banner" style="display:none;">
+      <div class="msb-title">🎉 你們都選了這些店！</div>
+      <div class="msb-shops" id="msb-shops"></div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg-system">🥂 碰杯成功！聊天室開啟，限時 1 小時</div>
+    </div>
+    <div class="chat-input-bar">
+      <input class="chat-inp" id="chat-input" placeholder="說點什麼…" autocomplete="off" onkeydown="if(event.key==='Enter')sendMessage()"/>
+      <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+  <!-- ── 7. 上傳合照 ── -->
+  <div class="screen" id="screen-photo">
+    <div class="photo-wrap">
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:900;color:var(--brown2);">📸 上傳合照</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:4px;">留下這次碰杯的回憶</div>
+      </div>
+      <div class="photo-timer-bar">
+        <div class="photo-timer-num" id="photo-timer-num">3:00</div>
+        <div class="photo-timer-lbl">視窗關閉倒數</div>
+      </div>
+      <div class="photo-upload-area" onclick="document.getElementById('photo-file-input').click()">
+        <div class="upload-icon">📷</div>
+        <div class="upload-hint">點擊選擇合照<br/>上傳後會出現在首頁</div>
+        <img id="photo-preview" style="display:none;"/>
+      </div>
+      <input type="file" id="photo-file-input" accept="image/*" onchange="onPhotoSelect(event)"/>
+      <button class="btn-primary" id="photo-upload-btn" onclick="uploadPhoto()" style="display:none;width:200px;">上傳合照 ✨</button>
+      <div class="photo-skip" onclick="goScreen('home')">跳過，直接回首頁</div>
+    </div>
+  </div>
+
+  <!-- ── 8. 碰失敗 ── -->
+  <div class="screen" id="screen-fail">
+    <div class="fail-wrap">
+      <div class="fail-icon">💔</div>
+      <div class="fail-title">碰杯失敗</div>
+      <div class="fail-sub" id="fail-sub">你們選的店沒有重疊<br/>沒關係，緣分需要慢慢找 ☕</div>
+      <button class="btn-primary" style="width:200px;" onclick="goHome()">再試一次 🧋</button>
+    </div>
   </div>
 </div>
 
-<!-- Supabase JS v2 -->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-/* ════════════════════════════════════
-   CONFIG — 替換為你的 Supabase 憑證
-   ════════════════════════════════════ */
+/* ══ CONFIG ══ */
 const SUPABASE_URL = 'https://hhcubvixldieuwdeqnwc.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhoY3Vidml4bGRpZXV3ZGVxbndjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjcyNDYsImV4cCI6MjA5MTE0MzI0Nn0.zkWxfm0FugSEL9zW6pwDFWPqmRJ3ystOZfU8yRL2lPo';
-const DEMO_MODE = (SUPABASE_URL === 'YOUR_SUPABASE_URL');
+const MAPS_KEY = 'AIzaSyDI_7QGiLM1qPT7ihcRPhu47diu7oRQaGs';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let sb = null;
-if (!DEMO_MODE) {
-  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-}
-
-/* ════════════════════════════════════
-   APP STATE
-   ════════════════════════════════════ */
-const state = {
-  user: null,          // { id, name, email, avatar_index, tags:[] }
-  liftActive: false,
-  liftExpiry: null,    // Date
-  liftTimerInterval: null,
-  currentMatch: null,  // { id, name, avatar_index, tags:[] }
-  currentMatchId: null,// matches table row id
-  chatTimerInterval: null,
-  chatSecs: 300,
-  chatChannel: null,
-  matchChannel: null,
-  selectedAvatar: 0,
-  selectedTags: [],
-  demoHistory: []
+/* ══ STATE ══ */
+const S = {
+  user: null,           // { id, name, avatar_index }
+  myLat: null, myLng: null,
+  sessionId: null,      // bubbletea_sessions row id
+  matchId: null,        // bubbletea_matches row id
+  peer: null,           // { id, name, avatar_index, lat, lng }
+  shops: [],            // 4 家候選店
+  myPicks: [],          // 我選的 2 家 place_id
+  matchedShops: [],     // 雙方都選的店
+  chatTimer: null,
+  photoTimer: null,
+  waitTimer: null,
+  pickTimer: null,
+  channel: null,
+  selectedPhoto: null,
 };
 
-/* ════════════════════════════════════
-   AVATARS
-   ════════════════════════════════════ */
+/* ══ AVATARS ══ */
 const AVATARS = [
-  {emoji:'😄',name:'陽光男',gender:'m'},
-  {emoji:'🥰',name:'甜甜女',gender:'f'},
-  {emoji:'😆',name:'元氣弟',gender:'m'},
-  {emoji:'😊',name:'珍珠姐',gender:'f'},
-  {emoji:'😎',name:'抹茶哥',gender:'m'},
-  {emoji:'🤩',name:'焦糖妹',gender:'f'},
-  {emoji:'🧐',name:'濃郁叔',gender:'m'},
-  {emoji:'😇',name:'奶蓋姐',gender:'f'},
+  {emoji:'😄',name:'陽光男'},{emoji:'🥰',name:'甜甜女'},
+  {emoji:'😆',name:'元氣弟'},{emoji:'😊',name:'珍珠姐'},
+  {emoji:'😎',name:'抹茶哥'},{emoji:'🤩',name:'焦糖妹'},
+  {emoji:'🧐',name:'濃郁叔'},{emoji:'😇',name:'奶蓋姐'},
 ];
+let selectedAvatar = 0;
 
-/* ════════════════════════════════════
-   MATCH SLOGANS
-   ════════════════════════════════════ */
-const SLOGANS = {
-  '全糖': {icon:'🐜',main:'恭喜！螞蟻同好 +1',desc:'你們都是全糖信徒，甜蜜指數直接爆表！'},
-  '半糖': {icon:'🍯',main:'半糖剛好！甜度默契十足',desc:'不甜不膩，你們的味覺頻率完美對齊～'},
-  '無糖': {icon:'🍃',main:'清醒派聯盟，歡迎入列',desc:'無糖不代表無趣，你們懂得回甘的美好！'},
-  '加珍珠': {icon:'🖤',main:'珍珠控現身！咬下去的快樂相同',desc:'每一顆珍珠都是命中注定的驚喜呢'},
-  '芋頭': {icon:'💜',main:'芋見你真好！紫色的緣分',desc:'芋頭的甘甜，串起了你們的味覺宇宙'},
-  '椰果': {icon:'🫙',main:'嚼勁愛好者同盟！Q彈萬歲',desc:'你們都懂得享受那份滑溜的口感幸福'},
-  '熱的': {icon:'☕',main:'熱飲派！溫暖靈魂的相遇',desc:'在寒冷的世界裡，你們選擇了同樣的溫度'},
-  '少冰': {icon:'🧊',main:'少冰精算師，風味把關中',desc:'不讓冰稀釋了美好，你們都是茶湯的守護者'},
-};
-const DEFAULT_SLOGAN = {icon:'🧋',main:'味覺共鳴！相遇即是緣',desc:'不同的標籤，相同的對手搖飲品味～'};
-
-/* ════════════════════════════════════
-   DEMO DATA
-   ════════════════════════════════════ */
-const DEMO_HISTORY = [
-  {name:'甜心女',emoji:'🥰',tags:['全糖','去冰','茉莉'],quote:'甜得剛剛好，像第一口珍奶',date:'今天 14:32'},
-  {name:'抹茶魂',emoji:'😎',tags:['無糖','抹茶','全冰'],quote:'清爽如第一泡茶，回甘無窮',date:'昨天 10:15'},
-  {name:'珍珠姐',emoji:'😊',tags:['半糖','加珍珠'],quote:'每一顆珍珠都是驚喜',date:'週一 19:48'},
-];
-
-const TAG_COLORS = {
-  '全糖':'pink','半糖':'b','無糖':'g','加珍珠':'p',
-  '芋頭':'p','椰果':'g','熱的':'','少冰':'',
-  '去冰':'b','茉莉':'g','全冰':'','抹茶':'g',
-};
-
-/* ════════════════════════════════════
-   UTILS
-   ════════════════════════════════════ */
-function showLoading(text='茶靈連線中…'){
-  document.getElementById('loading').style.display='flex';
-  document.getElementById('loading-text').textContent=text;
-}
+/* ══ UTILS ══ */
+function showLoading(t='載入中…'){document.getElementById('loading').style.display='flex';document.getElementById('loading-text').textContent=t;}
 function hideLoading(){document.getElementById('loading').style.display='none';}
-
-function showToast(msg,dur=2500){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),dur);
-}
+function showToast(msg,dur=2800){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function updateClock(){const n=new Date();document.getElementById('clock').textContent=n.getHours()+':'+(n.getMinutes()<10?'0':'')+n.getMinutes();}
+setInterval(updateClock,15000);updateClock();
+function fmtSecs(s){const m=Math.floor(s/60);const sc=s%60;return m+':'+(sc<10?'0':'')+sc;}
+async function hashPass(p){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(p));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
 
 function goScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
-  if(name==='history') renderHistory();
-  if(name==='match') renderMatch();
-  if(name==='home') renderRadar();
-  // update nav active
-  document.querySelectorAll('.bottom-nav .nav-item').forEach((n,i)=>{
-    const screens=['home','match','chat','history'];
-    n.classList.toggle('active',screens[i]===name);
-  });
 }
 
-/* clock */
-function updateClock(){
-  const now=new Date();
-  document.getElementById('clock').textContent=
-    now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
-}
-setInterval(updateClock,15000);updateClock();
-
-/* ════════════════════════════════════
-   AVATAR GRID
-   ════════════════════════════════════ */
+/* ══ AVATAR GRID ══ */
 function renderAvatarGrid(){
-  const grid=document.getElementById('avatar-grid');
-  grid.innerHTML=AVATARS.map((a,i)=>`
+  document.getElementById('avatar-grid').innerHTML=AVATARS.map((a,i)=>`
     <div class="avatar-cell ${i===0?'selected':''}" onclick="selectAvatar(${i})">
       <span class="av-emoji">${a.emoji}</span>
       <div class="av-name">${a.name}</div>
     </div>`).join('');
 }
 function selectAvatar(i){
-  state.selectedAvatar=i;
-  document.querySelectorAll('.avatar-cell').forEach((c,j)=>
-    c.classList.toggle('selected',j===i));
+  selectedAvatar=i;
+  document.querySelectorAll('.avatar-cell').forEach((c,j)=>c.classList.toggle('selected',j===i));
 }
 renderAvatarGrid();
 
-/* ════════════════════════════════════
-   TAG TOGGLE
-   ════════════════════════════════════ */
-function toggleTag(el){
-  el.classList.toggle('selected');
-  const tag=el.dataset.tag;
-  if(state.selectedTags.includes(tag)){
-    state.selectedTags=state.selectedTags.filter(t=>t!==tag);
-  } else {
-    state.selectedTags.push(tag);
-  }
-}
-
-/* ════════════════════════════════════
-   AUTH — 純資料表登入（不用 Supabase Auth）
-   密碼用簡單 hash 存入 users 表
-   ════════════════════════════════════ */
-
-// 簡易密碼 hash（不需後端，純前端用）
-async function hashPass(pass){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pass));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
+/* ══ AUTH ══ */
 async function doLogin(){
   const name=document.getElementById('login-name').value.trim();
   const pass=document.getElementById('login-pass').value;
-  if(!name||!pass){showToast('請輸入暱稱和密碼 🌿');return;}
-
-  if(DEMO_MODE){
-    state.user={id:'demo-'+Date.now(),name,avatar_index:0,tags:[]};
-    state.demoHistory=[...DEMO_HISTORY];
-    afterLogin();
-    return;
-  }
-
-  showLoading('驗證身分中…');
+  if(!name||!pass){showToast('請輸入暱稱和密碼');return;}
+  showLoading('驗證中…');
   try{
     const hashed=await hashPass(pass);
-    const {data,error}=await sb.from('bubbletea_users')
-      .select('*').eq('name',name).eq('pass_hash',hashed).single();
+    const {data,error}=await sb.from('bubbletea_users').select('*').eq('name',name).eq('pass_hash',hashed).single();
     if(error||!data) throw new Error('暱稱或密碼錯誤');
-    state.user={...data};
+    S.user=data;
     afterLogin();
-  } catch(e){
-    showToast('登入失敗：'+e.message);
-  } finally{ hideLoading(); }
+  }catch(e){showToast('登入失敗：'+e.message);}
+  finally{hideLoading();}
 }
 
 async function doRegister(){
@@ -959,536 +514,524 @@ async function doRegister(){
   const phone=document.getElementById('reg-phone').value.trim();
   const pass=document.getElementById('reg-pass').value;
   const pass2=document.getElementById('reg-pass2').value;
-  if(!name||!pass){showToast('請填寫名字和密碼 ✍️');return;}
-  if(pass!==pass2){showToast('密碼不一致 🔒');return;}
+  if(!name||!pass){showToast('請填寫名字和密碼');return;}
+  if(pass!==pass2){showToast('密碼不一致');return;}
   if(pass.length<6){showToast('密碼至少6位數');return;}
-
-  if(DEMO_MODE){
-    state.user={id:'demo-'+Date.now(),name,avatar_index:state.selectedAvatar,tags:[]};
-    state.demoHistory=[];
-    afterLogin();
-    return;
-  }
-
   showLoading('建立茶靈中…');
   try{
-    // 檢查暱稱是否重複
     const {data:exist}=await sb.from('bubbletea_users').select('id').eq('name',name).maybeSingle();
-    if(exist){showToast('此暱稱已被使用，換一個吧 🌿');hideLoading();return;}
-
+    if(exist){showToast('此暱稱已被使用');hideLoading();return;}
     const hashed=await hashPass(pass);
     const {data,error}=await sb.from('bubbletea_users').insert({
       name, phone:phone||'', pass_hash:hashed,
-      avatar_index:state.selectedAvatar, tags:[],
+      avatar_index:selectedAvatar, tags:[],
       created_at:new Date().toISOString()
     }).select().single();
     if(error) throw error;
-    state.user={...data};
+    S.user=data;
     showToast('歡迎加入碰杯！🧋');
     afterLogin();
-  } catch(e){
-    showToast('註冊失敗：'+e.message);
-  } finally{ hideLoading(); }
+  }catch(e){showToast('註冊失敗：'+e.message);}
+  finally{hideLoading();}
 }
 
 function afterLogin(){
-  const av=AVATARS[state.user.avatar_index||0];
-  document.getElementById('header-avatar').textContent=av.emoji;
-  document.getElementById('header-name').textContent=state.user.name;
-  document.getElementById('my-cup-name').textContent=state.user.name;
-  document.getElementById('match-my-name').textContent=state.user.name;
-  document.getElementById('match-my-avatar').textContent=av.emoji;
+  document.getElementById('home-avatar').textContent=AVATARS[S.user.avatar_index||0].emoji;
+  document.getElementById('home-uname').textContent=S.user.name;
+  loadPhotoWall();
   goScreen('home');
-  if(!DEMO_MODE) subscribeToMatches();
 }
 
-/* ════════════════════════════════════
-   RADAR / SPIRITS
-   ════════════════════════════════════ */
-function renderRadar(){
-  const zone=document.getElementById('radar-zone');
-  zone.querySelectorAll('.tea-spirit').forEach(s=>s.remove());
+function doLogout(){
+  S.user=null;S.sessionId=null;S.matchId=null;S.peer=null;
+  clearAllTimers();
+  goScreen('welcome');
+}
 
-  const spirits=state.nearbyUsers||[];
-  if(spirits.length===0) return; // 空雷達，等舉杯模式找到真實用戶
+function goHome(){
+  clearAllTimers();
+  S.sessionId=null;S.matchId=null;S.peer=null;S.myPicks=[];S.shops=[];
+  document.getElementById('cheers-btn').classList.remove('waiting');
+  document.getElementById('cheers-btn').querySelector('.btn-label').textContent='碰杯！';
+  document.getElementById('cheers-btn').querySelector('.btn-sub').textContent='點我開始配對';
+  document.getElementById('waiting-info').style.display='none';
+  loadPhotoWall();
+  goScreen('home');
+}
 
-  // 固定位置池
-  const positions=[
-    {top:'18%',left:'15%'},{top:'12%',left:'65%'},
-    {top:'70%',left:'12%'},{top:'68%',left:'68%'},
-    {top:'40%',left:'5%'},{top:'35%',left:'75%'},
-  ];
-  spirits.forEach((s,i)=>{
-    const pos=positions[i%positions.length];
-    const el=document.createElement('div');
-    el.className='tea-spirit'+(s.matched?' matched':'');
-    el.style.top=pos.top;el.style.left=pos.left;
-    el.innerHTML=`<div class="sp-face">${AVATARS[s.avatar_index||0].emoji}</div><div class="sp-dot"></div>`;
-    el.title=s.name;
-    el.onclick=()=>{ if(s.matched) triggerMatch(s); else showToast('標籤不同，無法配對 ☕'); };
-    zone.appendChild(el);
+/* ══ GEOLOCATION ══ */
+function getMyLocation(){
+  return new Promise((res,rej)=>{
+    if(!navigator.geolocation){rej(new Error('瀏覽器不支援定位'));return;}
+    navigator.geolocation.getCurrentPosition(
+      p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),
+      ()=>rej(new Error('無法取得位置，請允許定位權限')),
+      {timeout:10000}
+    );
   });
 }
 
-function triggerMatch(spirit){
-  if(!state.liftActive && !DEMO_MODE){ showToast('先啟動舉杯模式再配對！'); return; }
-  state.currentMatch=spirit;
-  renderMatchScreen(spirit);
-  goScreen('match');
-}
+/* ══ 碰杯按鈕 ══ */
+async function onCheersBtn(){
+  if(!S.user){showToast('請先登入');return;}
+  if(S.sessionId){showToast('已在等待配對中…');return;}
 
-/* ════════════════════════════════════
-   LIFT MODE
-   ════════════════════════════════════ */
-function toggleLiftMode(){
-  if(state.liftActive){
-    stopLiftMode();
-  } else {
-    startLiftMode();
-  }
-}
-
-async function startLiftMode(){
-  if(state.selectedTags.length===0){
-    showToast('請先選擇至少一個飲料標籤！');return;
-  }
-  state.liftActive=true;
-  state.liftExpiry=new Date(Date.now()+60*60*1000);
-
-  updateLiftBadge();
-  state.liftTimerInterval=setInterval(updateLiftBadge,1000);
-
-  const btn=document.getElementById('lift-btn');
-  btn.textContent='✋ 停止舉杯模式';
-  btn.classList.add('stop');
-
-  showToast('舉杯模式啟動！🧋 探索同好中…');
-
-  if(sb){
-    // 寫入自己的舉杯 session
-    const {error}=await sb.from('bubbletea_lift_sessions').insert({
-      user_id:state.user.id,
-      tags:state.selectedTags,
-      expires_at:state.liftExpiry.toISOString()
-    });
-    if(error){ showToast('連線失敗，請稍後再試'); return; }
-
-    // 查詢有相同標籤的其他舉杯用戶
-    await fetchNearbyUsers();
-    subscribeToMatches();
-  }
-
-  renderRadar();
-}
-
-async function fetchNearbyUsers(){
-  const {data}=await sb.from('bubbletea_lift_sessions')
-    .select('user_id, tags, bubbletea_users(id, name, avatar_index, tags)')
-    .gt('expires_at', new Date().toISOString())
-    .neq('user_id', state.user.id);
-
-  if(!data) return;
-  state.nearbyUsers = data
-    .filter(row => row.bubbletea_users)
-    .map(row => {
-      const u = row.bubbletea_users;
-      const sharedTag = state.selectedTags.some(t => row.tags.includes(t));
-      return { id: u.id, name: u.name, avatar_index: u.avatar_index,
-               tags: row.tags, matched: sharedTag };
-    });
-  renderRadar();
-}
-
-function stopLiftMode(){
-  state.liftActive=false;
-  if(state.liftTimerInterval){ clearInterval(state.liftTimerInterval); state.liftTimerInterval=null; }
-  const btn=document.getElementById('lift-btn');
-  btn.textContent='🧋 啟動舉杯模式';
-  btn.classList.remove('stop');
-  document.getElementById('lift-badge').textContent='舉杯模式關閉';
-  document.getElementById('lift-badge').className='lift-timer-badge off';
-}
-
-function updateLiftBadge(){
-  if(!state.liftExpiry) return;
-  const diff=Math.max(0,Math.floor((state.liftExpiry-Date.now())/1000));
-  if(diff===0){ stopLiftMode(); return; }
-  const m=Math.floor(diff/60), s=diff%60;
-  const badge=document.getElementById('lift-badge');
-  badge.textContent=`舉杯中 ${m}:${s<10?'0':''}${s}`;
-  badge.className='lift-timer-badge';
-}
-
-/* ════════════════════════════════════
-   MATCH SCREEN
-   ════════════════════════════════════ */
-function renderMatchScreen(peer){
-  const matchWrap=document.getElementById('match-wrap');
-  matchWrap.style.display='flex';
-  document.getElementById('no-match-state').style.display='none';
-
-  // cups
-  const myAv=AVATARS[state.user?.avatar_index||0];
-  document.getElementById('my-cup').textContent=myAv.emoji;
-  document.getElementById('peer-cup').textContent=peer.emoji;
-  document.getElementById('peer-cup-name').textContent=peer.name;
-  document.getElementById('match-peer-name').textContent=peer.name;
-  document.getElementById('match-peer-avatar').textContent=peer.emoji;
-
-  // slogan — find shared tag
-  const myTags=state.selectedTags.length?state.selectedTags:(state.user?.tags||[]);
-  const sharedTag=(myTags).find(t=>peer.tags&&peer.tags.includes(t));
-  const slogan=SLOGANS[sharedTag]||DEFAULT_SLOGAN;
-  document.getElementById('slogan-icon').textContent=slogan.icon;
-  document.getElementById('slogan-main').textContent=slogan.main;
-  document.getElementById('slogan-desc').textContent=slogan.desc;
-
-  // tags
-  const renderTags=(containerId,tags)=>{
-    const el=document.getElementById(containerId);
-    el.innerHTML=(tags||[]).map(t=>`
-      <div class="peer-tag ${TAG_COLORS[t]||''}">${t}</div>`).join('');
-  };
-  renderTags('match-my-tags',myTags);
-  renderTags('match-peer-tags',peer.tags||[]);
-
-  // confetti
-  spawnConfetti();
-}
-
-function renderMatch(){
-  if(state.currentMatch){
-    renderMatchScreen(state.currentMatch);
-  } else {
-    document.getElementById('match-wrap').style.display='none';
-    document.getElementById('no-match-state').style.display='flex';
-  }
-}
-
-function spawnConfetti(){
-  const layer=document.getElementById('confetti-layer');
-  layer.innerHTML='';
-  const cols=['#F4A8A8','#8BAF7C','#F5E6D3','#EDD5B5','#DCC9A8','#FADDDD'];
-  for(let i=0;i<22;i++){
-    const d=document.createElement('div');
-    d.className='confetti-piece';
-    const sz=4+Math.random()*6;
-    d.style.cssText=`width:${sz}px;height:${sz}px;`+
-      `background:${cols[Math.floor(Math.random()*cols.length)]};`+
-      `left:${Math.random()*100}%;`+
-      `animation-duration:${3+Math.random()*2}s;`+
-      `animation-delay:${Math.random()*2}s;`;
-    layer.appendChild(d);
-  }
-}
-
-/* ════════════════════════════════════
-   CHEERS REQUEST + CHAT
-   ════════════════════════════════════ */
-async function sendCheersRequest(){
-  if(!state.currentMatch){ showToast('沒有配對對象');return; }
-
-  // Demo 茶靈（id 不是 UUID）或 DEMO_MODE 都直接開聊天室
-  const isRealPeer = state.currentMatch.id &&
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(state.currentMatch.id);
-
-  if(DEMO_MODE || !isRealPeer){
-    openChatRoom(state.currentMatch);
-    return;
-  }
-
-  showLoading('傳送乾杯請求…');
+  showLoading('取得你的位置…');
   try{
-    const {data,error}=await sb.from('bubbletea_matches').insert({
-      user1_id:state.user.id,
-      user2_id:state.currentMatch.id,
-      status:'accepted',
-      expires_at:new Date(Date.now()+5*60*1000).toISOString()
-    }).select().single();
-    if(error) throw error;
-    state.currentMatchId=data.id;
-    openChatRoom(state.currentMatch);
-  } catch(e){
-    showToast('發送失敗：'+e.message);
-  } finally{ hideLoading(); }
+    const pos=await getMyLocation();
+    S.myLat=pos.lat; S.myLng=pos.lng;
+  }catch(e){showToast(e.message);hideLoading();return;}
+
+  // 找一小時內有效的等待中 session（不是自己的）
+  showLoading('尋找茶靈中…');
+  try{
+    const cutoff=new Date(Date.now()-60*60*1000).toISOString();
+    const {data:waiting}=await sb.from('bubbletea_sessions')
+      .select('*')
+      .eq('status','waiting')
+      .gt('created_at',cutoff)
+      .neq('user_id',S.user.id)
+      .order('created_at',{ascending:true})
+      .limit(1);
+
+    if(waiting && waiting.length>0){
+      // 配對成功！
+      await pairWith(waiting[0]);
+    } else {
+      // 沒人，建立自己的 session 等待
+      await createWaitingSession();
+    }
+  }catch(e){showToast('配對失敗：'+e.message);}
+  finally{hideLoading();}
 }
 
-function openChatRoom(peer){
-  document.getElementById('chat-peer-avatar').textContent=peer.emoji;
-  document.getElementById('chat-peer-name').textContent=peer.name;
-  document.getElementById('chat-peer-tags').textContent=(peer.tags||[]).join('・');
-  document.getElementById('chat-expired').style.display='none';
-  document.getElementById('chat-messages').innerHTML=
-    '<div class="msg-system">🥂 乾杯請求已接受！限時聊天室開啟</div>';
+async function createWaitingSession(){
+  const expires=new Date(Date.now()+60*60*1000).toISOString();
+  const {data,error}=await sb.from('bubbletea_sessions').insert({
+    user_id:S.user.id, lat:S.myLat, lng:S.myLng,
+    status:'waiting', expires_at:expires,
+    created_at:new Date().toISOString()
+  }).select().single();
+  if(error) throw error;
+  S.sessionId=data.id;
 
-  // add demo messages
-  if(DEMO_MODE){
-    setTimeout(()=>addMessage('them',peer.name,'哈哈你也是同類！好開心遇到你 🧋'),800);
-    setTimeout(()=>addMessage('me','我','對啊！都是真正的飲料人 ✨'),1800);
+  // 更新UI
+  const btn=document.getElementById('cheers-btn');
+  btn.classList.add('waiting');
+  btn.querySelector('.btn-label').textContent='等待中…';
+  btn.querySelector('.btn-sub').textContent='有人按下就配對！';
+  document.getElementById('waiting-info').style.display='block';
+  startWaitTimer(60*60);
+
+  // Realtime 監聽自己的 session 被更新（配對到）
+  subscribeSession();
+}
+
+async function pairWith(theirSession){
+  // 更新對方 session 為 matched
+  const myExpires=new Date(Date.now()+30*60*1000).toISOString();
+  await sb.from('bubbletea_sessions').update({status:'matched',matched_with:S.user.id}).eq('id',theirSession.id);
+
+  // 建立 match 記錄
+  const {data:match,error}=await sb.from('bubbletea_matches').insert({
+    user1_id:theirSession.user_id, user2_id:S.user.id,
+    user1_lat:theirSession.lat, user1_lng:theirSession.lng,
+    user2_lat:S.myLat, user2_lng:S.myLng,
+    status:'pick', expires_at:myExpires,
+    created_at:new Date().toISOString()
+  }).select().single();
+  if(error) throw error;
+  S.matchId=match.id;
+
+  // 取得對方用戶資料
+  const {data:peer}=await sb.from('bubbletea_users').select('*').eq('id',theirSession.user_id).single();
+  S.peer={...peer, lat:theirSession.lat, lng:theirSession.lng};
+
+  // 建立自己的 session（已配對狀態）
+  await sb.from('bubbletea_sessions').insert({
+    user_id:S.user.id, lat:S.myLat, lng:S.myLng,
+    status:'matched', matched_with:theirSession.user_id,
+    match_id:match.id, created_at:new Date().toISOString()
+  });
+
+  showToast('碰杯成功！🥂 尋找附近飲料店…');
+  await loadShops(match);
+  goPickScreen();
+}
+
+/* ══ REALTIME SESSION ══ */
+function subscribeSession(){
+  if(S.channel) sb.removeChannel(S.channel);
+  S.channel=sb.channel('session-'+S.sessionId)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bubbletea_sessions',filter:`id=eq.${S.sessionId}`},
+      async(payload)=>{
+        if(payload.new.status==='matched'){
+          clearInterval(S.waitTimer);
+          const matchId=payload.new.match_id||null;
+
+          // 找 match 記錄
+          const {data:match}=await sb.from('bubbletea_matches').select('*')
+            .or(`user1_id.eq.${S.user.id},user2_id.eq.${S.user.id}`)
+            .eq('status','pick').order('created_at',{ascending:false}).limit(1).single();
+          if(!match) return;
+          S.matchId=match.id;
+          const peerId=match.user1_id===S.user.id?match.user2_id:match.user1_id;
+          const {data:peer}=await sb.from('bubbletea_users').select('*').eq('id',peerId).single();
+          S.peer={...peer,lat:match.user1_id===peer.id?match.user1_lat:match.user2_lat,lng:match.user1_id===peer.id?match.user1_lng:match.user2_lng};
+
+          showToast('碰杯成功！🥂');
+          await loadShops(match);
+          goPickScreen();
+        }
+      }
+    ).subscribe();
+}
+
+/* ══ GOOGLE MAPS: 找中間的飲料店 ══ */
+async function loadShops(match){
+  const midLat=(match.user1_lat+match.user2_lat)/2;
+  const midLng=(match.user1_lng+match.user2_lng)/2;
+
+  // 使用 Places API (Nearby Search via fetch)
+  const radius=2000;
+  const url=`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${midLat},${midLng}&radius=${radius}&keyword=手搖飲|珍珠奶茶|飲料店&language=zh-TW&key=${MAPS_KEY}`;
+
+  // 因 CORS 限制，改用 Places JS API
+  return new Promise((res)=>{
+    if(!window.google){
+      const s=document.createElement('script');
+      s.src=`https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&libraries=places`;
+      s.onload=()=>doPlacesSearch(midLat,midLng,res);
+      document.head.appendChild(s);
+    } else {
+      doPlacesSearch(midLat,midLng,res);
+    }
+  });
+}
+
+function doPlacesSearch(lat,lng,resolve){
+  const map=new google.maps.Map(document.createElement('div'));
+  const service=new google.maps.places.PlacesService(map);
+  service.nearbySearch({
+    location:{lat,lng},
+    radius:2000,
+    keyword:'手搖飲 珍珠奶茶 飲料',
+    language:'zh-TW'
+  },(results,status)=>{
+    if(status===google.maps.places.PlacesServiceStatus.OK && results){
+      S.shops=results.slice(0,4).map(p=>({
+        place_id:p.place_id,
+        name:p.name,
+        address:p.vicinity,
+        rating:p.rating||null,
+        photo:p.photos?p.photos[0].getUrl({maxWidth:120}):null,
+      }));
+    } else {
+      // fallback: 假資料（API 回傳失敗時）
+      S.shops=[
+        {place_id:'p1',name:'50嵐',address:'中間區域 No.1',rating:4.5,photo:null},
+        {place_id:'p2',name:'大苑子',address:'中間區域 No.2',rating:4.3,photo:null},
+        {place_id:'p3',name:'茶湯會',address:'中間區域 No.3',rating:4.2,photo:null},
+        {place_id:'p4',name:'麻古茶坊',address:'中間區域 No.4',rating:4.4,photo:null},
+      ];
+    }
+    resolve();
+  });
+}
+
+/* ══ 選店畫面 ══ */
+let pickCountdownSecs=300; // 5分鐘選店
+function goPickScreen(){
+  S.myPicks=[];
+  renderShopList();
+  pickCountdownSecs=300;
+  updatePickCountdown();
+  S.pickTimer=setInterval(()=>{
+    pickCountdownSecs--;
+    updatePickCountdown();
+    if(pickCountdownSecs<=0){
+      clearInterval(S.pickTimer);
+      // 時間到自動送出（即使沒選滿）
+      confirmPick();
+    }
+  },1000);
+  subscribeMatchResult();
+  goScreen('pick');
+}
+
+function updatePickCountdown(){
+  document.getElementById('pick-countdown').textContent='（'+fmtSecs(pickCountdownSecs)+'）';
+}
+
+function renderShopList(){
+  const list=document.getElementById('shop-list');
+  list.innerHTML=S.shops.map((s,i)=>`
+    <div class="shop-card" id="shop-${s.place_id}" onclick="toggleShop('${s.place_id}')">
+      <div class="shop-rank">${i+1}</div>
+      <div class="shop-info">
+        <div class="shop-name">${s.name}</div>
+        <div class="shop-addr">${s.address||''}</div>
+        ${s.rating?`<div class="shop-rating">⭐ ${s.rating}</div>`:''}
+      </div>
+      <div class="shop-check" id="check-${s.place_id}">✓</div>
+    </div>`).join('');
+}
+
+function toggleShop(pid){
+  const idx=S.myPicks.indexOf(pid);
+  if(idx>=0){
+    S.myPicks.splice(idx,1);
+    document.getElementById('shop-'+pid).classList.remove('selected');
+  } else {
+    if(S.myPicks.length>=2){showToast('最多選 2 家');return;}
+    S.myPicks.push(pid);
+    document.getElementById('shop-'+pid).classList.add('selected');
+  }
+  const n=S.myPicks.length;
+  document.getElementById('pick-status').textContent=n===0?'請選擇 2 家店':`已選 ${n}/2 家`;
+  const btn=document.getElementById('pick-confirm-btn');
+  btn.disabled=n<2;
+  btn.style.opacity=n<2?'0.5':'1';
+}
+
+async function confirmPick(){
+  clearInterval(S.pickTimer);
+  if(!S.matchId) return;
+
+  // 判斷自己是 user1 還是 user2
+  const {data:match}=await sb.from('bubbletea_matches').select('*').eq('id',S.matchId).single();
+  const isUser1=match.user1_id===S.user.id;
+  const pickField=isUser1?'user1_picks':'user2_picks';
+
+  await sb.from('bubbletea_matches').update({[pickField]:S.myPicks}).eq('id',S.matchId);
+
+  // 如果對方已選，直接判結果
+  const otherPicks=isUser1?match.user2_picks:match.user1_picks;
+  if(otherPicks && otherPicks.length>0){
+    processResult(S.myPicks, otherPicks);
+  } else {
+    goScreen('waiting-result');
+    startWrTimer();
+  }
+}
+
+/* ══ 等待對方選擇 ══ */
+function subscribeMatchResult(){
+  if(S.channel) sb.removeChannel(S.channel);
+  S.channel=sb.channel('match-'+S.matchId)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bubbletea_matches',filter:`id=eq.${S.matchId}`},
+      async(payload)=>{
+        const m=payload.new;
+        if(m.user1_picks && m.user2_picks && m.user1_picks.length>0 && m.user2_picks.length>0){
+          clearInterval(S.pickTimer);
+          processResult(m.user1_picks,m.user2_picks);
+        }
+      }
+    ).subscribe();
+}
+
+function startWrTimer(){
+  let s=300;
+  document.getElementById('wr-timer').textContent=fmtSecs(s);
+  S.waitTimer=setInterval(()=>{
+    s--;
+    document.getElementById('wr-timer').textContent=fmtSecs(s);
+    if(s<=0){clearInterval(S.waitTimer);goScreen('fail');document.getElementById('fail-sub').textContent='等待超時，對方沒有選店 ☕\n再試一次吧！';}
+  },1000);
+}
+
+/* ══ 判斷結果 ══ */
+function processResult(picks1, picks2){
+  clearInterval(S.waitTimer);
+  const matched=picks1.filter(p=>picks2.includes(p));
+  if(matched.length===0){
+    // 碰失敗
+    sb.from('bubbletea_matches').update({status:'failed'}).eq('id',S.matchId);
+    goScreen('fail');
+    document.getElementById('fail-sub').textContent='你們選的店沒有重疊\n沒關係，緣分需要慢慢找 ☕';
+  } else {
+    // 碰成功
+    S.matchedShops=S.shops.filter(s=>matched.includes(s.place_id));
+    sb.from('bubbletea_matches').update({status:'chatting',matched_shops:matched}).eq('id',S.matchId);
+    openChatRoom();
+  }
+}
+
+/* ══ 聊天室 ══ */
+function openChatRoom(){
+  const av=AVATARS[S.peer?.avatar_index||0];
+  document.getElementById('chat-peer-avatar').textContent=av.emoji;
+  document.getElementById('chat-peer-name').textContent=S.peer?.name||'茶靈';
+  document.getElementById('chat-peer-sub').textContent='碰杯成功！共同選了 '+S.matchedShops.length+' 家店';
+
+  // 放上共同選的店
+  if(S.matchedShops.length>0){
+    document.getElementById('match-shops-banner').style.display='block';
+    document.getElementById('msb-shops').innerHTML=S.matchedShops.map(s=>`
+      <div class="msb-shop">
+        <div class="msb-shop-name">${s.name}</div>
+        <div class="msb-shop-addr">${s.address||''}</div>
+      </div>`).join('');
   }
 
+  document.getElementById('chat-messages').innerHTML='<div class="msg-system">🥂 碰杯成功！聊天室開啟，限時 1 小時</div>';
   goScreen('chat');
-  startChatTimer();
-  if(!DEMO_MODE) subscribeToChatRoom();
+  startChatTimer(60*60);
+  subscribeChatMessages();
 }
 
-/* ════════════════════════════════════
-   CHAT TIMER
-   ════════════════════════════════════ */
-function startChatTimer(){
-  if(state.chatTimerInterval) clearInterval(state.chatTimerInterval);
-  state.chatSecs=300;
-  updateTimerDisplay();
-  state.chatTimerInterval=setInterval(()=>{
-    state.chatSecs--;
-    updateTimerDisplay();
-    if(state.chatSecs<=0){
-      clearInterval(state.chatTimerInterval);
-      chatExpired();
+function startChatTimer(secs){
+  document.getElementById('chat-timer-num').textContent=fmtSecs(secs);
+  S.chatTimer=setInterval(()=>{
+    secs--;
+    document.getElementById('chat-timer-num').textContent=fmtSecs(secs);
+    if(secs<=0){
+      clearInterval(S.chatTimer);
+      // 聊天結束，進合照畫面
+      goPhotoScreen();
     }
   },1000);
 }
 
-function updateTimerDisplay(){
-  const m=Math.floor(state.chatSecs/60);
-  const s=state.chatSecs%60;
-  document.getElementById('chat-timer-display').textContent=
-    m+':'+(s<10?'0':'')+s;
+function subscribeChatMessages(){
+  if(S.channel) sb.removeChannel(S.channel);
+  S.channel=sb.channel('chat-'+S.matchId)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'bubbletea_messages',filter:`match_id=eq.${S.matchId}`},
+      (payload)=>{
+        const msg=payload.new;
+        if(msg.sender_id===S.user.id) return;
+        addChatBubble('them',S.peer?.name||'對方',msg.content);
+      }
+    ).subscribe();
 }
 
-function chatExpired(){
-  document.getElementById('chat-expired').style.display='flex';
-  document.getElementById('chat-input-bar')?.remove();
-  saveFlavorCard();
-  showToast('聊天室已關閉，味覺卡片已儲存 📖');
-}
-
-async function saveFlavorCard(){
-  const peer=state.currentMatch;
-  if(!peer) return;
-  const card={
-    name:peer.name,emoji:peer.emoji,
-    tags:peer.tags||[],
-    quote:getRandomQuote(peer.tags),
-    date:formatNow()
-  };
-  if(DEMO_MODE){
-    state.demoHistory.unshift(card);
-    return;
-  }
-  await sb.from('bubbletea_flavor_cards').insert({
-    owner_id:state.user.id,
-    peer_id:peer.id,
-    peer_name:peer.name,
-    peer_avatar:peer.emoji,
-    peer_tags:peer.tags,
-    quote:card.quote,
-    created_at:new Date().toISOString()
-  });
-}
-
-/* ════════════════════════════════════
-   SEND MESSAGE
-   ════════════════════════════════════ */
 async function sendMessage(){
   const inp=document.getElementById('chat-input');
   const text=inp.value.trim();
-  if(!text) return;
+  if(!text||!S.matchId) return;
   inp.value='';
-  addMessage('me','我',text);
-
-  if(DEMO_MODE){
-    setTimeout(()=>{
-      const replies=['哇真的！我每次必點 🧋','同感！口感超重要','下次一起去嚐嚐？☕'];
-      addMessage('them',state.currentMatch?.name||'茶靈',replies[Math.floor(Math.random()*replies.length)]);
-    },1200);
-    return;
-  }
-
+  addChatBubble('me','我',text);
   await sb.from('bubbletea_messages').insert({
-    match_id:state.currentMatchId,
-    sender_id:state.user.id,
-    content:text,
-    created_at:new Date().toISOString()
+    match_id:S.matchId, sender_id:S.user.id,
+    content:text, created_at:new Date().toISOString()
   });
 }
 
-function addMessage(side,name,text){
+function addChatBubble(side,name,text){
   const el=document.createElement('div');
   const now=new Date();
-  const timeStr=now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
-  el.innerHTML=`
-    <div class="msg-bubble msg-${side}">${text}</div>
-    <div class="msg-time ${side==='me'?'right':''}">${side==='me'?'我':name} ${timeStr}</div>`;
-  el.style.display='flex';
-  el.style.flexDirection='column';
-  const container=document.getElementById('chat-messages');
-  container.appendChild(el);
-  container.scrollTop=container.scrollHeight;
+  const t=now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  el.style.cssText='display:flex;flex-direction:column;';
+  el.innerHTML=`<div class="msg-bubble msg-${side}">${text}</div><div class="msg-meta ${side==='me'?'right':''}">${side==='me'?'我':name} ${t}</div>`;
+  const c=document.getElementById('chat-messages');
+  c.appendChild(el);
+  c.scrollTop=c.scrollHeight;
 }
 
-/* ════════════════════════════════════
-   HISTORY
-   ════════════════════════════════════ */
-async function renderHistory(){
-  const list=document.getElementById('history-list');
-
-  let cards=[];
-  if(DEMO_MODE){
-    cards=[...state.demoHistory];
-  } else {
-    const {data}=await sb
-      .from('bubbletea_flavor_cards')
-      .select('*')
-      .eq('owner_id',state.user?.id)
-      .order('created_at',{ascending:false});
-    cards=(data||[]).map(r=>({
-      name:r.peer_name,emoji:r.peer_avatar,
-      tags:r.peer_tags||[],quote:r.quote,
-      date:formatDate(r.created_at)
-    }));
-  }
-
-  document.getElementById('history-subtitle').textContent=
-    cards.length>0?`共 ${cards.length} 張味覺卡片 ✨`:'每一張都是獨一無二的味覺回憶';
-
-  if(cards.length===0){
-    list.innerHTML=`
-      <div class="empty-state">
-        <div class="empty-icon">🫧</div>
-        <div class="empty-text">還沒有味覺卡片<br/>啟動舉杯模式，去遇見你的茶靈吧！</div>
-      </div>`;
-    return;
-  }
-
-  list.innerHTML=cards.map(c=>`
-    <div class="flavor-card">
-      <div class="fc-avatar">${c.emoji}</div>
-      <div class="fc-info">
-        <div class="fc-name">${c.name}</div>
-        <div class="fc-tags">
-          ${(c.tags||[]).map(t=>`<div class="fc-tag" style="${tagStyle(t)}">${t}</div>`).join('')}
-        </div>
-        <div class="fc-quote">「${c.quote}」</div>
-      </div>
-      <div class="fc-meta">
-        <div class="fc-date">${c.date.replace(' ','\n')}</div>
-        <div class="fc-heart">💗</div>
-      </div>
-    </div>`).join('');
+/* ══ 合照 ══ */
+function goPhotoScreen(){
+  if(S.channel) sb.removeChannel(S.channel);
+  let s=180;
+  document.getElementById('photo-timer-num').textContent=fmtSecs(s);
+  S.photoTimer=setInterval(()=>{
+    s--;
+    document.getElementById('photo-timer-num').textContent=fmtSecs(s);
+    if(s<=0){clearInterval(S.photoTimer);goHome();}
+  },1000);
+  goScreen('photo');
 }
 
-function tagStyle(tag){
-  const map={
-    '全糖':'background:#FADDDD;color:#C0546A;',
-    '半糖':'background:#FFF3E0;color:#B07820;',
-    '無糖':'background:#D4EBCC;color:#5A8040;',
-    '加珍珠':'background:#EDE0F0;color:#8040A0;',
-    '芋頭':'background:#E8E0F8;color:#604898;',
-    '去冰':'background:#FFF3E0;color:#B07820;',
-    '抹茶':'background:#D4EBCC;color:#5A8040;',
-    '全冰':'background:#E8F4FF;color:#205880;',
-    '茉莉':'background:#D4EBCC;color:#5A8040;',
-    '熱的':'background:#FFEDE0;color:#C05020;',
+function onPhotoSelect(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  S.selectedPhoto=file;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=document.getElementById('photo-preview');
+    img.src=ev.target.result;
+    img.style.display='block';
+    document.querySelector('.photo-upload-area .upload-icon').style.display='none';
+    document.querySelector('.photo-upload-area .upload-hint').style.display='none';
+    document.getElementById('photo-upload-btn').style.display='block';
   };
-  return (map[tag]||'background:#F5E6D3;color:#7A5C3A;')+'font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;';
+  reader.readAsDataURL(file);
 }
 
-/* ════════════════════════════════════
-   SUPABASE REALTIME
-   ════════════════════════════════════ */
-function subscribeToMatches(){
-  if(!supabase||!state.user) return;
-  if(state.matchChannel){ sb.removeChannel(state.matchChannel); }
-
-  state.matchChannel=sb.channel('matches-'+state.user.id)
-    .on('postgres_changes',{
-      event:'INSERT',schema:'public',table:'bubbletea_matches',
-      filter:`user2_id=eq.${state.user.id}`
-    },async(payload)=>{
-      const match=payload.new;
-      // fetch peer info
-      const {data:peer}=await sb
-        .from('bubbletea_users').select('*').eq('auth_id',match.user1_id).single();
-      if(!peer) return;
-      state.currentMatch={...peer,id:match.user1_id};
-      state.currentMatchId=match.id;
-      renderMatchScreen(state.currentMatch);
-      showToast(`${peer.name} 向你發送了乾杯請求！🥂`);
-      // auto-accept for demo purposes — in prod show a modal
-      await sb.from('bubbletea_matches').update({status:'accepted'}).eq('id',match.id);
-      openChatRoom(state.currentMatch);
-    }).subscribe();
+async function uploadPhoto(){
+  if(!S.selectedPhoto||!S.matchId) return;
+  showLoading('上傳中…');
+  try{
+    const ext=S.selectedPhoto.name.split('.').pop();
+    const path=`bubbletea_photos/${S.matchId}_${Date.now()}.${ext}`;
+    const {error:upErr}=await sb.storage.from('bubbletea-photos').upload(path,S.selectedPhoto,{upsert:true});
+    if(upErr) throw upErr;
+    const {data:{publicUrl}}=sb.storage.from('bubbletea-photos').getPublicUrl(path);
+    await sb.from('bubbletea_matches').update({photo_url:publicUrl}).eq('id',S.matchId);
+    clearInterval(S.photoTimer);
+    showToast('合照上傳成功！📸');
+    setTimeout(goHome,1500);
+  }catch(e){showToast('上傳失敗：'+e.message);}
+  finally{hideLoading();}
 }
 
-function subscribeToChatRoom(){
-  if(!supabase||!state.currentMatchId) return;
-  if(state.chatChannel){ sb.removeChannel(state.chatChannel); }
-
-  state.chatChannel=sb.channel('chat-'+state.currentMatchId)
-    .on('postgres_changes',{
-      event:'INSERT',schema:'public',table:'bubbletea_messages',
-      filter:`match_id=eq.${state.currentMatchId}`
-    },(payload)=>{
-      const msg=payload.new;
-      if(msg.sender_id===state.user.id) return; // already shown
-      addMessage('them',state.currentMatch?.name||'對方',msg.content);
-    }).subscribe();
+/* ══ 合照牆 ══ */
+async function loadPhotoWall(){
+  const {data}=await sb.from('bubbletea_matches')
+    .select('photo_url,user1_id,user2_id')
+    .not('photo_url','is',null)
+    .order('created_at',{ascending:false})
+    .limit(6);
+  if(!data||data.length===0) return;
+  const grid=document.getElementById('photo-grid');
+  // 補滿3格
+  const cells=[];
+  for(let i=0;i<3;i++){
+    if(data[i]) cells.push(`<div class="photo-cell"><img src="${data[i].photo_url}" onerror="this.parentNode.innerHTML='<div class=empty-ph>📷</div>'"/></div>`);
+    else cells.push(`<div class="photo-cell"><div class="empty-ph">📷</div></div>`);
+  }
+  grid.innerHTML=cells.join('');
 }
 
-/* ════════════════════════════════════
-   HELPERS
-   ════════════════════════════════════ */
-function getRandomQuote(tags){
-  const quotes={
-    '全糖':['甜得恰到好處，像個好朋友','每一口都是正能量','濃郁的甜，是最直接的快樂'],
-    '無糖':['清醒的靈魂，才懂得回甘','淡而有味，細細品嚐','不需要糖，本身就是甜的'],
-    '半糖':['剛剛好的甜，是最難拿捏的藝術','適中，是成熟的味道','半糖人生，知足常樂'],
-    '加珍珠':['每一顆珍珠，都是意外的驚喜','咬下去的瞬間，幸福感爆炸','Q彈的快樂，無可取代'],
-  };
-  const tag=(tags||[]).find(t=>quotes[t]);
-  const pool=quotes[tag]||['每一次相遇，都是味覺的奇蹟','留在舌尖的，是獨特的你'];
-  return pool[Math.floor(Math.random()*pool.length)];
+/* ══ TIMERS ══ */
+function startWaitTimer(secs){
+  document.getElementById('waiting-timer').textContent=fmtSecs(secs);
+  S.waitTimer=setInterval(()=>{
+    secs--;
+    document.getElementById('waiting-timer').textContent=fmtSecs(secs);
+    if(secs<=0){
+      clearInterval(S.waitTimer);
+      // 時間到，取消等待
+      if(S.sessionId) sb.from('bubbletea_sessions').update({status:'expired'}).eq('id',S.sessionId);
+      S.sessionId=null;
+      document.getElementById('cheers-btn').classList.remove('waiting');
+      document.getElementById('cheers-btn').querySelector('.btn-label').textContent='碰杯！';
+      document.getElementById('cheers-btn').querySelector('.btn-sub').textContent='點我開始配對';
+      document.getElementById('waiting-info').style.display='none';
+      showToast('等待逾時，請再試一次 ☕');
+    }
+  },1000);
 }
 
-function formatNow(){
-  const now=new Date();
-  const h=now.getHours(),m=now.getMinutes();
-  return `今天 ${h}:${m<10?'0':''}${m}`;
+function clearAllTimers(){
+  ['chatTimer','photoTimer','waitTimer','pickTimer'].forEach(k=>{
+    if(S[k]){clearInterval(S[k]);S[k]=null;}
+  });
+  if(S.channel){sb.removeChannel(S.channel);S.channel=null;}
 }
 
-function formatDate(iso){
-  if(!iso) return '';
-  const d=new Date(iso);
-  const now=new Date();
-  const diff=Math.floor((now-d)/86400000);
-  const h=d.getHours(),m=d.getMinutes();
-  const t=`${h}:${m<10?'0':''}${m}`;
-  if(diff===0) return `今天\n${t}`;
-  if(diff===1) return `昨天\n${t}`;
-  return `${d.getMonth()+1}/${d.getDate()}\n${t}`;
-}
-
-/* ════════════════════════════════════
-   EXPOSE TO WINDOW (for HTML onclick)
-   ════════════════════════════════════ */
-window.goScreen = goScreen;
-window.doLogin = doLogin;
-window.doRegister = doRegister;
-window.selectAvatar = selectAvatar;
-window.toggleTag = toggleTag;
-window.toggleLiftMode = toggleLiftMode;
-window.triggerMatch = triggerMatch;
-window.sendCheersRequest = sendCheersRequest;
-window.sendMessage = sendMessage;
-window.renderHistory = renderHistory;
-
-/* ════════════════════════════════════
-   INIT
-   ════════════════════════════════════ */
-if(DEMO_MODE){
-  console.log('%c碰杯 Demo Mode 啟用 🧋','color:#C9933A;font-weight:bold;font-size:14px;');
-}
+/* ══ WINDOW EXPORTS ══ */
+window.doLogin=doLogin;
+window.doRegister=doRegister;
+window.doLogout=doLogout;
+window.goScreen=goScreen;
+window.goHome=goHome;
+window.selectAvatar=selectAvatar;
+window.onCheersBtn=onCheersBtn;
+window.toggleShop=toggleShop;
+window.confirmPick=confirmPick;
+window.sendMessage=sendMessage;
+window.onPhotoSelect=onPhotoSelect;
+window.uploadPhoto=uploadPhoto;
 </script>
 </body>
 </html>
