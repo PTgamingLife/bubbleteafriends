@@ -580,13 +580,16 @@ async function onCheersBtn(){
   try{
     const pos=await getMyLocation();
     S.myLat=pos.lat; S.myLng=pos.lng;
-  }catch(e){showToast(e.message);hideLoading();return;}
+  }catch(e){
+    hideLoading();
+    showToast(e.message);
+    return;
+  }
 
-  // 找一小時內有效的等待中 session（不是自己的）
   showLoading('尋找茶靈中…');
   try{
     const cutoff=new Date(Date.now()-60*60*1000).toISOString();
-    const {data:waiting}=await sb.from('bubbletea_sessions')
+    const {data:waiting, error:qErr}=await sb.from('bubbletea_sessions')
       .select('*')
       .eq('status','waiting')
       .gt('created_at',cutoff)
@@ -594,15 +597,20 @@ async function onCheersBtn(){
       .order('created_at',{ascending:true})
       .limit(1);
 
+    if(qErr) throw new Error('查詢失敗：'+qErr.message);
+
+    hideLoading();
+
     if(waiting && waiting.length>0){
-      // 配對成功！
       await pairWith(waiting[0]);
     } else {
-      // 沒人，建立自己的 session 等待
       await createWaitingSession();
     }
-  }catch(e){showToast('配對失敗：'+e.message);}
-  finally{hideLoading();}
+  }catch(e){
+    hideLoading();
+    console.error('onCheersBtn error:',e);
+    showToast('❌ '+e.message, 4000);
+  }
 }
 
 async function createWaitingSession(){
@@ -612,7 +620,7 @@ async function createWaitingSession(){
     status:'waiting', expires_at:expires,
     created_at:new Date().toISOString()
   }).select().single();
-  if(error) throw error;
+  if(error) throw new Error('建立等待失敗：'+error.message);
   S.sessionId=data.id;
 
   // 更新UI
